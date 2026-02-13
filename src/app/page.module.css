@@ -1,0 +1,369 @@
+/* Hero Section */
+.hero {
+  position: relative;
+  height: 70vh;
+  width: 100%;
+  margin-bottom: -100px;
+  /* Slight overlap */
+  z-index: 0;
+}
+
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(77deg,
+      rgba(0, 0, 0, .8) 0,
+      rgba(0, 0, 0, .3) 40%,
+      transparent 85%);
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 4%;
+}
+
+.heroContent {
+  max-width: 50%;
+  z-index: 10;
+  animation: slideInRight 1s ease-out;
+}
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.heroDescription {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 400;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  margin-bottom: 2rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.playBtn,
+.infoBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.6rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  text-decoration: none;
+}
+
+.playBtn {
+  background: var(--primary);
+  color: white;
+}
+
+.playBtn:hover {
+  background: hsl(357 92% 40%);
+  box-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
+}
+
+.infoBtn {
+  background: rgba(109, 109, 110, 0.7);
+  color: white;
+}
+
+.infoBtn:hover {
+  background: rgba(109, 109, 110, 0.4);
+}
+
+/* Grid adjustment */
+.contentSection {
+  position: relative;
+  z-index: 10;
+  padding: 2rem 4%;
+  background: linear-gradient(to bottom, transparent, #141414 100px);
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #e5e5e5;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  /* Slightly smaller min for YouTube density */
+  gap: 1rem;
+  /* Tighter gap */
+  padding: 24px;
+  /* Standard YouTube padding */
+  /* Cinematic Background Glow handled in globals.css for unity */
+  min-height: 100vh;
+}
+
+/* Updated Card Styles */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  background: transparent;
+  border-radius: 0;
+  /* overflow: visible; Let content flow */
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.3s ease;
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+/* Stagger generic simulation via nth-child for first few items for a nice effect without JS index */
+.card:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.card:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.card:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.card:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+.card:nth-child(6) {
+  animation-delay: 0.3s;
+}
+
+.card:nth-child(n+7) {
+  animation-delay: 0.35s;
+}
+
+/* Refined Hover Scale */
+.card:hover {
+  transform: scale(1.05) translateY(-5px);
+  /* Lift up slightly */
+  z-index: 20;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+  background: #181818;
+  border-radius: 6px;
+}
+
+.thumbnailWrapper {
+  display: block;
+  /* Fix for anchor tag being inline */
+  width: 100%;
+  aspect-ratio: 16/9;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-radius 0.3s ease;
+  background: #000;
+  /* Fallback for transparency */
+}
+
+.card:hover .thumbnailWrapper {
+  border-radius: 4px 4px 0 0;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.3s ease;
+  display: block;
+  /* Remove inline gap */
+}
+
+.card:hover .thumbnail {
+  filter: brightness(1.15) contrast(1.1);
+}
+
+.duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 3px 6px;
+  border-radius: 2px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
+  transition: opacity 0.2s;
+}
+
+.card:hover .duration {
+  opacity: 0;
+  /* Hide duration on hover for cleaner look like Netflix preview */
+}
+
+/* ... existing info styles ... */
+.info {
+  padding: 12px 0 0 0;
+  display: flex;
+  gap: 12px;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.card:hover .info {
+  opacity: 1;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.card:hover .avatar {
+  border-color: transparent;
+  /* Remove border override */
+  transform: scale(1.1);
+}
+
+.details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #f1f1f1;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.2s;
+}
+
+.card:hover .title {
+  color: #fff;
+}
+
+.channelName {
+  font-size: 14px;
+  color: #aaa;
+  text-decoration: none;
+  line-height: 1.2;
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+}
+
+.channelName::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: #aaa;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.channelName:hover {
+  color: #ccc;
+}
+
+.channelName:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.meta {
+  font-size: 14px;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: #555;
+  /* Lighter grey for better visibility */
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.loading,
+.emptyState {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  width: 100%;
+  grid-column: 1 / -1;
+}
+
+.emptyState h2 {
+  color: #fff;
+  margin-bottom: 16px;
+}

@@ -1,0 +1,273 @@
+.landingContainer {
+    background-color: #000;
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.heroBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.5;
+    mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+}
+
+.heroOverlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%);
+    z-index: 0;
+}
+
+.heroContent {
+    z-index: 1;
+    max-width: 800px;
+    animation: scaleUp 0.8s ease-out;
+}
+
+.heroTitle {
+    font-size: 4rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.heroSubtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.8);
+}
+
+.ctaButton {
+    background: #e50914;
+    color: white;
+    font-size: 1.5rem;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ctaButton:hover {
+    background: #f40612;
+    transform: scale(1.05);
+}
+
+/* Story Cards Section */
+.storySection {
+    background-color: #000;
+    width: 100%;
+}
+
+.storyCard {
+    position: relative;
+    height: 90vh;
+    /* Tall cinematic sections */
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-bottom: 8px solid #222;
+}
+
+.storyBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+/* Gradient to make text readable */
+.storyOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 40%, rgba(0, 0, 0, 0.2) 100%);
+    z-index: 1;
+}
+
+.reverse .storyOverlay {
+    background: linear-gradient(-90deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 40%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+.storyContainer {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 5%;
+    display: flex;
+}
+
+.reverse .storyContainer {
+    justify-content: flex-end;
+    /* Push text to right */
+    text-align: right;
+}
+
+.storyText {
+    max-width: 50%;
+}
+
+.storyTitle {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.storySubtitle {
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: #f5f5f5;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.8);
+}
+
+/* FAQ Section */
+.faqSection {
+    padding: 4.5rem 0;
+    background: #000;
+    text-align: center;
+    border-bottom: 8px solid #222;
+}
+
+.faqTitle {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 2rem;
+}
+
+.faqList {
+    max-width: 815px;
+    margin: 0 auto;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.faqItem {
+    background: #2d2d2d;
+    margin-bottom: 8px;
+    transition: background 0.2s;
+}
+
+.faqQuestion {
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 400;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    width: 100%;
+    color: white;
+    cursor: pointer;
+    text-align: left;
+}
+
+.faqQuestion:hover {
+    background: #414141;
+}
+
+.faqAnswer {
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    background: #2d2d2d;
+    border-top: 1px solid #000;
+    line-height: 1.4;
+    display: none;
+}
+
+.open {
+    display: block;
+}
+
+/* Footer CTA */
+.footerCta {
+    padding: 3rem 0;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footerCtaText {
+    font-size: 1.2rem;
+    padding-bottom: 20px;
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 950px) {
+    .storyCard {
+        height: auto;
+        padding: 6rem 0;
+    }
+
+    .storyOverlay,
+    .reverse .storyOverlay {
+        background: rgba(0, 0, 0, 0.8);
+        /* Darker on mobile */
+    }
+
+    .storyContainer,
+    .reverse .storyContainer {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .storyText {
+        max-width: 100%;
+    }
+
+    .storyTitle {
+        font-size: 2.5rem;
+    }
+
+    .heroTitle {
+        font-size: 2.5rem;
+    }
+}

@@ -1,0 +1,314 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-top: 1rem;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+    .container {
+        grid-template-columns: 3fr 1fr;
+    }
+}
+
+.mainContent {
+    min-width: 0;
+    /* Prevents overflow in grid */
+}
+
+/* Sidebar Styles */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.playlistQueue {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    max-height: 500px;
+    /* or flex height */
+    display: flex;
+    flex-direction: column;
+}
+
+.queueHeader {
+    padding: 1rem;
+    background: var(--secondary);
+    border-bottom: 1px solid var(--border);
+}
+
+.queueHeader h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.queueList {
+    overflow-y: auto;
+    flex: 1;
+}
+
+.queueItem {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s;
+}
+
+.queueItem:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.queueItemActive {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.queueThumb {
+    width: 100px;
+    aspect-ratio: 16/9;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.queueInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.queueTitle {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.queueChannel {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+.suggestedList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.queueThumbWrapper {
+    position: relative;
+    width: 168px;
+    /* Slightly larger for desktop feel similar to YT */
+    min-width: 168px;
+    height: 94px;
+}
+
+.queueThumb {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.suggestedDuration {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+
+
+.playerWrapper {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: black;
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+}
+
+.videoPlayer {
+    width: 100%;
+    height: 100%;
+}
+
+.title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.channel {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 600;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.description {
+    background: hsl(var(--secondary));
+    padding: 1rem;
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.avatarPlaceholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.commentsSection h3 {
+    margin-bottom: 1.5rem;
+}
+
+.commentForm {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.commentInput {
+    flex: 1;
+    background: transparent;
+    border-bottom: 1px solid hsl(var(--border));
+    padding: 0.5rem;
+    color: white;
+    outline: none;
+}
+
+.commentInput:focus {
+    border-bottom-color: var(--primary);
+}
+
+.comment {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.commentUser {
+    font-size: 0.85rem;
+    color: hsl(var(--muted-foreground));
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.commentDate {
+    font-size: 0.7rem;
+    color: gray;
+}
+
+.commentItem {
+    margin-bottom: 1.5rem;
+}
+
+.nestedReplies {
+    margin-left: 2rem;
+    margin-top: 1rem;
+    padding-left: 1rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.commentHeader {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    margin-bottom: 0.4rem;
+}
+
+.commentContent {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #eee;
+    margin-bottom: 0.5rem;
+}
+
+.commentActions {
+    display: flex;
+    gap: 1rem;
+}
+
+.actionBtn {
+    background: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0;
+}
+
+.actionBtn:hover {
+    color: #fff;
+}
+
+.liked {
+    color: var(--primary);
+}
+
+.replyForm {
+    margin-top: 0.8rem;
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.replyInput {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #444;
+    color: white;
+    padding: 0.5rem;
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.replyInput:focus {
+    border-color: var(--primary);
+}
+
+.replyButtons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}

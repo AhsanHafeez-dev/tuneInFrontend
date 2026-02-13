@@ -1,0 +1,380 @@
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: var(--white);
+}
+
+.coverImage {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    background-color: var(--card-bg);
+}
+
+.profileHeader {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: -3rem;
+    padding: 0 2rem;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid var(--background);
+    object-fit: cover;
+    background-color: var(--secondary);
+}
+
+.info {
+    margin-top: 3rem;
+    flex: 1;
+}
+
+.name {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.username {
+    color: var(--gray);
+    margin-bottom: 0.5rem;
+}
+
+.stats {
+    display: flex;
+    gap: 1rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.subscribeBtn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    /* Pill shape */
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 3rem;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+    padding: 0 2rem;
+}
+
+.tab {
+    background: transparent;
+    border: none;
+    padding: 1rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--muted-foreground);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.activeTab {
+    color: var(--foreground);
+    border-bottom: 2px solid var(--foreground);
+}
+
+.videoGrid,
+.playlistGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.videoCard,
+.playlistCard {
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.videoCard:hover,
+.playlistCard:hover {
+    transform: translateY(-4px);
+}
+
+.thumbnail {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+/* Playlist Card specificity */
+.playlistCount {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: white;
+}
+
+.playlistThumbWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+}
+
+.playlistOverlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+}
+
+.cardInfo,
+.playlistInfo {
+    padding: 1rem;
+}
+
+.cardInfo h3,
+.playlistTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--white);
+    text-decoration: none;
+}
+
+.avatarPlaceholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.videoMeta {
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+/* Tweets / Community Tab */
+.tweetsContainer {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.createTweetForm {
+    margin-bottom: 2rem;
+    background: var(--card-bg);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+}
+
+.tweetInput {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    color: var(--foreground);
+    padding: 0.5rem;
+    font-size: 1rem;
+    resize: none;
+    outline: none;
+    font-family: inherit;
+    min-height: 80px;
+}
+
+.tweetInput:focus {
+    border-bottom-color: var(--primary);
+}
+
+.tweetsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.tweetCard {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.tweetHeader {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.tweetMeta {
+    flex: 1;
+}
+
+.tweetUser {
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: block;
+    color: var(--foreground);
+}
+
+.tweetDate {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+.tweetContent {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--foreground);
+    white-space: pre-wrap;
+    margin-bottom: 1rem;
+}
+
+.tweetActions {
+    display: flex;
+    gap: 1rem;
+}
+
+.actionBtn {
+    background: transparent;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.actionBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.deleteBtn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.deleteBtn:hover {
+    opacity: 1;
+}
+
+/* Enhanced Profile Header */
+.profileHeader {
+    display: flex;
+    align-items: flex-start;
+    /* Align to top */
+    gap: 1.5rem;
+    padding: 0 2rem;
+    margin-top: 1rem;
+    /* Spacing from banner */
+    position: relative;
+    flex-wrap: wrap;
+}
+
+.avatarWrapper {
+    margin-top: -4rem;
+    /* Pull avatar up into banner */
+    flex-shrink: 0;
+}
+
+.avatar {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 4px solid var(--background);
+    /* Space between avatar and banner */
+    object-fit: cover;
+    background-color: var(--secondary);
+}
+
+.channelInfo {
+    flex: 1;
+    min-width: 250px;
+    padding-top: 0.5rem;
+}
+
+.channelInfo h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.handle {
+    font-size: 1rem;
+    color: var(--gray);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.stats {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.subscribeWrapper {
+    padding-top: 0.5rem;
+}
+
+.subscribeBtn {
+    background-color: var(--primary);
+    /* Black foreground usually, but check var */
+    color: black;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.subscribeBtn:hover {
+    opacity: 0.9;
+}
