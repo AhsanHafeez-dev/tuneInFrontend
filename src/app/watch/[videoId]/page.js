@@ -188,11 +188,13 @@ export default function WatchPage() {
 
             const data = await res.json();
             console.log(data);
+            
 
             if (res.ok) {
                 setVideo(data.data);
                 checkSubscription(data.data.owner.id);
                 fetchSuggestedVideos();
+                setIsLiked(video?.isLiked);
             }
         } catch (error) {
             console.error(error);
@@ -310,6 +312,7 @@ export default function WatchPage() {
             if (res.ok) {
                 setNewComment('');
                 fetchComments();
+                
             }
         } catch (error) {
             console.error(error);
@@ -318,7 +321,7 @@ export default function WatchPage() {
 
     if (loading) return <div className="loading">Loading player...</div>;
     if (!video) return <div className="loading">Video not found</div>;
-    setIsLiked(video.isLiked);
+    
     
     return (
         <div className={styles.container}>
