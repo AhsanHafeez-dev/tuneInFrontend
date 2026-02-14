@@ -195,7 +195,8 @@ export default function WatchPage() {
                 checkSubscription(data.data.owner.id);
                 fetchSuggestedVideos();
                 setIsLiked(video?.isLiked);
-                console.log("setting is Liked",video);
+                
+                console.log("setting is Liked",data.data);
                 
             }
         } catch (error) {
