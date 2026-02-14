@@ -38,7 +38,7 @@ export default function ChannelPage() {
     try {
       console.log(`fetching user ${username}`);
       
-      const res = await fetch(`/api/v1/users/c/${username}`,{credentials:'include'});
+      const res = await fetch(`/api/v1/users/c/${username}`,{});
       const data = await res.json();
       
       
@@ -60,7 +60,7 @@ export default function ChannelPage() {
       console.log(`fetching videos for id ${userId}`);
       
       const res = await fetch(
-        `/api/v1/videos?userId=${userId}&page=1&limit=50`,{credentials:'include'}
+        `/api/v1/videos?userId=${userId}&page=1&limit=50`,{}
       );
       const data = await res.json();
       if (res.ok) {
@@ -73,7 +73,7 @@ export default function ChannelPage() {
 
   const fetchChannelPlaylists = async (userId) => {
     try {
-      const res = await fetch(`/api/v1/playlist/user/${userId}`,{credentials:'include'});
+      const res = await fetch(`/api/v1/playlist/user/${userId}`,{});
       const data = await res.json();
       if (res.ok) {
         setPlaylists(data.data || []);
@@ -86,7 +86,7 @@ export default function ChannelPage() {
   const fetchTweets = async () => {
     if (!channel) return;
     try {
-      const res = await fetch(`/api/v1/tweets/user/${channel.id}`,{credentials:'include'});
+      const res = await fetch(`/api/v1/tweets/user/${channel.id}`,{});
       const data = await res.json();
       if (res.ok) setTweets(data.data);
     } catch (error) {
@@ -99,7 +99,7 @@ export default function ChannelPage() {
     try {
       const res = await fetch(`/api/v1/subscriptions/c/${channel.id}`, {
         method: "POST",
-        credentials:'include'
+        
       });
       const data = await res.json();
       if (res.ok) {
@@ -129,7 +129,7 @@ export default function ChannelPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content: newTweetContent }),
-        credentials:'include'
+        
       });
 
       if (res.ok) {
@@ -147,7 +147,7 @@ export default function ChannelPage() {
     try {
       const res = await fetch(`/api/v1/tweets/${tweetId}`, {
         method: "DELETE",
-        credentials:'include'
+        
       });
       if (res.ok) {
         fetchTweets();
