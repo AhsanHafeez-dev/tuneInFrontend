@@ -53,6 +53,8 @@ export default function ChannelPage() {
 
   const fetchChannelVideos = async (userId) => {
     try {
+      console.log(`fetching videos for id ${userId}`);
+      
       const res = await fetch(
         `/api/v1/videos?userId=${userId}&page=1&limit=50`
       );
