@@ -238,6 +238,8 @@ export default function WatchPage() {
                 `https://tune-in-backend.vercel.app/api/v1/comments/${videoId}?page=1&limit=10`
             );
             const data = await res.json();
+            console.log(data.data);
+            
             if (res.ok) setComments(data.data.comments);
         } catch (error) {
             console.error(error);
