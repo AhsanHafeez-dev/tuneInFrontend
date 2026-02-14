@@ -10,6 +10,8 @@ import apiClient from '@/utils/apiClient';
 // --- Comment Components ---
 
 function CommentItem({ comment, videoId, user, onRefresh }) {
+    console.log("mapping",comment);
+    
     const [isReplying, setIsReplying] = useState(false);
     const [replyContent, setReplyContent] = useState('');
     const [liked, setLiked] = useState(false);
@@ -68,10 +70,10 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
         <div className={styles.commentItem}>
             <div className={styles.commentHeader}>
                 <div className={styles.avatarPlaceholder} style={{ width: 30, height: 30, fontSize: '0.8rem' }}>
-                    {comment.owner?.avatar ? <img src={comment.owner.avatar} style={{ width: '100%', height: '100%', borderRadius: '50%' }} /> : 'U'}
+                    {comment.owner?.avatar ? <img src={comment.owner?.avatar} style={{ width: '100%', height: '100%', borderRadius: '50%' }} /> : 'U'}
                 </div>
                 <span className={styles.commentUser}>
-                    {comment.owner?.fullName || 'User'}
+                    {comment.owner?.userName || 'User'}
                     <span className={styles.commentDate}>{new Date(comment.createdAt).toLocaleDateString()}</span>
                 </span>
             </div>
@@ -155,6 +157,8 @@ function CommentSection({ comments, videoId, user, onRefresh }) {
         </div>
     );
 }
+
+
 
 export default function WatchPage() {
     const { videoId } = useParams();
