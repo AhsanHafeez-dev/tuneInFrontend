@@ -19,7 +19,7 @@ const apiClient = async (url, options = {}) => {
         headers,
     });
     
-    console.log(abc);
+    console.log(response);
     
     return response;
 };
