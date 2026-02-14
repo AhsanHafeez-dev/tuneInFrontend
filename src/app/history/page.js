@@ -29,6 +29,7 @@ export default function HistoryPage() {
             if (res.ok) {
                 const data = await res.json();
                 setHistory(data.data || []);
+                data.data?.map((v) => console.log(v))
             }
         } catch (error) {
             console.error('Error fetching history:', error);
