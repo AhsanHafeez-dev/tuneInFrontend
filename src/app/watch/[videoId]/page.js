@@ -148,6 +148,8 @@ function CommentSection({ comments, videoId, user, onRefresh }) {
 
 export default function WatchPage() {
     const { videoId } = useParams();
+    console.log("got from params",videoId);
+    
     const searchParams = useSearchParams();
     const playlistId = searchParams.get('list');
 
