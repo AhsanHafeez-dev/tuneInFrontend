@@ -182,7 +182,10 @@ export default function WatchPage() {
                 `https://tune-in-backend.vercel.app/api/v1/videos/${videoId}`,
                 {credentials:'include'}
             );
+            
             const data = await res.json();
+            console.log(data);
+            
             if (res.ok) {
                 setVideo(data.data);
                 checkSubscription(data.data.owner.id);
