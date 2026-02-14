@@ -61,13 +61,13 @@ export default function LikedVideosPage() {
             ) : (
                 <div className={styles.list}>
                     {videos.map((video) => (
-                        <div key={video._id} className={styles.card}>
-                            <Link href={`/watch/${video._id}`} className={styles.thumbnailWrapper}>
+                        <div key={video.id} className={styles.card}>
+                            <Link href={`/watch/${video.id}`} className={styles.thumbnailWrapper}>
                                 <img src={video.thumbnail} alt={video.title} className={styles.thumbnail} />
                                 <span className={styles.duration}>{Math.floor(video.duration)}s</span>
                             </Link>
                             <div className={styles.info}>
-                                <Link href={`/watch/${video._id}`} className={styles.title}>
+                                <Link href={`/watch/${video.id}`} className={styles.title}>
                                     {video.title}
                                 </Link>
                                 <div className={styles.meta}>

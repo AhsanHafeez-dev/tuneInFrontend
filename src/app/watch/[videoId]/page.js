@@ -26,7 +26,7 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
             const res = await fetch(`/api/v1/comments/${videoId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: replyContent, parentComment: comment._id })
+                body: JSON.stringify({ content: replyContent, parentComment: comment.id })
             });
             if (res.ok) {
                 setReplyContent('');
@@ -44,7 +44,7 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
     const handleLike = async () => {
         if (!user) return alert("Please login to like");
         try {
-            const res = await fetch(`/api/v1/likes/toggle/c/${comment._id}`, { method: 'POST' });
+            const res = await fetch(`/api/v1/likes/toggle/c/${comment.id}`, { method: 'POST' });
             if (res.ok) {
                 const data = await res.json();
                 setLiked(data.data.isLiked);
@@ -98,7 +98,7 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
                 <div className={styles.nestedReplies}>
                     {comment.replies.map(reply => (
                         <CommentItem
-                            key={reply._id}
+                            key={reply.id}
                             comment={reply}
                             videoId={videoId}
                             user={user}
@@ -119,11 +119,11 @@ function CommentSection({ comments, videoId, user, onRefresh }) {
         const roots = [];
         // Init map
         list.forEach((c) => {
-            map[String(c._id)] = { ...c, replies: [] };
+            map[String(c.id)] = { ...c, replies: [] };
         });
         // Build tree
         list.forEach(c => {
-            const id = String(c._id);
+            const id = String(c.id);
             const parentId = c.parentComment ? String(c.parentComment) : null;
 
             if (parentId && map[parentId]) {
@@ -140,7 +140,7 @@ function CommentSection({ comments, videoId, user, onRefresh }) {
     return (
         <div className={styles.tree}>
             {commentTree.map(c => (
-                <CommentItem key={c._id} comment={c} videoId={videoId} user={user} onRefresh={onRefresh} />
+                <CommentItem key={c.id} comment={c} videoId={videoId} user={user} onRefresh={onRefresh} />
             ))}
         </div>
     );
@@ -170,7 +170,7 @@ export default function WatchPage() {
             const data = await res.json();
             if (res.ok) {
                 setVideo(data.data);
-                checkSubscription(data.data.owner._id);
+                checkSubscription(data.data.owner.id);
                 fetchSuggestedVideos();
             }
         } catch (error) {
@@ -187,7 +187,7 @@ export default function WatchPage() {
             const data = await res.json();
             if (res.ok) {
                 // Filter out current video
-                const others = (data.data.docs || []).filter(v => v._id !== videoId);
+                const others = (data.data.docs || []).filter(v => v.id !== videoId);
                 setSuggestedVideos(others);
             }
         } catch (error) {
@@ -240,7 +240,7 @@ export default function WatchPage() {
     const toggleSubscribe = async () => {
         if (!user) return alert('Please login to subscribe');
         try {
-            const res = await fetch(`/api/v1/subscriptions/c/${video.owner._id}`, { method: 'POST' });
+            const res = await fetch(`/api/v1/subscriptions/c/${video.owner.id}`, { method: 'POST' });
             const data = await res.json();
             if (res.ok) setIsSubscribed(data.data.subscribed);
         } catch (error) {
@@ -373,9 +373,9 @@ export default function WatchPage() {
                         <div className={styles.queueList}>
                             {playlist.videos.map(v => (
                                 <Link
-                                    href={`/watch/${v._id}?list=${playlist._id}`}
-                                    key={v._id}
-                                    className={`${styles.queueItem} ${v._id === videoId ? styles.queueItemActive : ''}`}
+                                    href={`/watch/${v.id}?list=${playlist.id}`}
+                                    key={v.id}
+                                    className={`${styles.queueItem} ${v.id === videoId ? styles.queueItemActive : ''}`}
                                 >
                                     <img src={v.thumbnail} alt={v.title} className={styles.queueThumb} />
                                     <div className={styles.queueInfo}>
@@ -390,8 +390,8 @@ export default function WatchPage() {
                     <div className={styles.suggestedList}>
                         {suggestedVideos.map(v => (
                             <Link
-                                href={`/watch/${v._id}`}
-                                key={v._id}
+                                href={`/watch/${v.id}`}
+                                key={v.id}
                                 className={styles.queueItem}
                             >
                                 <div className={styles.queueThumbWrapper}>

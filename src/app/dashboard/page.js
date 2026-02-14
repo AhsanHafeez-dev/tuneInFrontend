@@ -85,7 +85,7 @@ export default function DashboardPage() {
                 setShowUpload(false);
                 alert('Video uploaded successfully!');
                 // Open playlist modal for the new video
-                openAddToPlaylist(data.data._id);
+                openAddToPlaylist(data.data.id);
                 // Refresh stats and videos (simplified reloading)
                 window.location.reload();
             } else {
@@ -104,7 +104,7 @@ export default function DashboardPage() {
         try {
             const res = await fetch(`/api/v1/videos/${videoId}`, { method: 'DELETE' });
             if (res.ok) {
-                setVideos(videos.filter(v => v._id !== videoId));
+                setVideos(videos.filter(v => v.id !== videoId));
                 setStats(prev => ({ ...prev, totalVideos: prev.totalVideos - 1 }));
             } else {
                 alert("Failed to delete video");
@@ -119,7 +119,7 @@ export default function DashboardPage() {
             const res = await fetch(`/api/v1/videos/toggle/publish/${videoId}`, { method: 'PATCH' });
             const data = await res.json();
             if (res.ok) {
-                setVideos(videos.map(v => v._id === videoId ? { ...v, isPublished: data.data.isPublished } : v));
+                setVideos(videos.map(v => v.id === videoId ? { ...v, isPublished: data.data.isPublished } : v));
             }
         } catch (error) {
             console.error(error);
@@ -171,7 +171,7 @@ export default function DashboardPage() {
             <h2 className={styles.sectionTitle}>Your Videos</h2>
             <div className={styles.videoList}>
                 {videos.map(video => (
-                    <div key={video._id} className={styles.videoItem}>
+                    <div key={video.id} className={styles.videoItem}>
                         <img src={video.thumbnail} alt={video.title} className={styles.videoThumb} />
                         <div className={styles.videoInfo}>
                             <h4>{video.title}</h4>
@@ -184,21 +184,21 @@ export default function DashboardPage() {
                             <div className={styles.videoActions}>
                                 <button
                                     className="btn btn-secondary"
-                                    onClick={() => handleTogglePublish(video._id)}
+                                    onClick={() => handleTogglePublish(video.id)}
                                     style={{ fontSize: '0.8rem', padding: '0.4rem 0.8rem' }}
                                 >
                                     {video.isPublished ? 'Unpublish' : 'Publish'}
                                 </button>
                                 <button
                                     className="btn btn-secondary"
-                                    onClick={() => openAddToPlaylist(video._id)}
+                                    onClick={() => openAddToPlaylist(video.id)}
                                     style={{ fontSize: '0.8rem', padding: '0.4rem 0.8rem' }}
                                 >
                                     Add to Playlist
                                 </button>
                                 <button
                                     className="btn btn-danger"
-                                    onClick={() => handleDeleteVideo(video._id)}
+                                    onClick={() => handleDeleteVideo(video.id)}
                                     style={{ fontSize: '0.8rem', padding: '0.4rem 0.8rem', background: 'hsl(0, 84%, 60%)', color: 'white', border: 'none' }}
                                 >
                                     Delete

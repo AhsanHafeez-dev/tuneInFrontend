@@ -40,6 +40,8 @@ export default function ChannelPage() {
       
       const res = await fetch(`/api/v1/users/c/${username}`);
       const data = await res.json();
+      
+      
       if (res.ok) {
         setChannel(data.data);
         setIsSubscribed(data.data.isSubscribed);
