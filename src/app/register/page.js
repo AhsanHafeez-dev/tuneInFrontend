@@ -20,6 +20,8 @@ export default function RegisterPage() {
         if (avatar) data.append('avatar', avatar);
 
         try {
+            console.log(data);
+            
             const res = await fetch(
               "https://tune-in-backend.vercel.app/api/v1/users/register",
               {
