@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import apiClient from '@/utils/apiClient';
 
 export default function ChannelPage() {
   const { username } = useParams();
@@ -37,11 +38,11 @@ export default function ChannelPage() {
   const fetchChannelProfile = async () => {
     try {
       console.log(`fetching user ${username}`);
-      
-      const res = await fetch(`/api/v1/users/c/${username}`,{});
+
+      const res = await apiClient(`/api/v1/users/c/${username}`, {});
       const data = await res.json();
-      
-      
+
+
       if (res.ok) {
         setChannel(data.data);
         setIsSubscribed(data.data.isSubscribed);
@@ -58,9 +59,9 @@ export default function ChannelPage() {
   const fetchChannelVideos = async (userId) => {
     try {
       console.log(`fetching videos for id ${userId}`);
-      
-      const res = await fetch(
-        `/api/v1/videos?userId=${userId}&page=1&limit=50`,{}
+
+      const res = await apiClient(
+        `/api/v1/videos?userId=${userId}&page=1&limit=50`, {}
       );
       const data = await res.json();
       if (res.ok) {
@@ -73,7 +74,7 @@ export default function ChannelPage() {
 
   const fetchChannelPlaylists = async (userId) => {
     try {
-      const res = await fetch(`/api/v1/playlist/user/${userId}`,{});
+      const res = await apiClient(`/api/v1/playlist/user/${userId}`, {});
       const data = await res.json();
       if (res.ok) {
         setPlaylists(data.data || []);
@@ -86,7 +87,7 @@ export default function ChannelPage() {
   const fetchTweets = async () => {
     if (!channel) return;
     try {
-      const res = await fetch(`/api/v1/tweets/user/${channel.id}`,{});
+      const res = await apiClient(`/api/v1/tweets/user/${channel.id}`, {});
       const data = await res.json();
       if (res.ok) setTweets(data.data);
     } catch (error) {
@@ -97,9 +98,9 @@ export default function ChannelPage() {
   const toggleSubscribe = async () => {
     if (!user) return alert("Please login to subscribe");
     try {
-      const res = await fetch(`/api/v1/subscriptions/c/${channel.id}`, {
+      const res = await apiClient(`/api/v1/subscriptions/c/${channel.id}`, {
         method: "POST",
-        
+
       });
       const data = await res.json();
       if (res.ok) {
@@ -125,11 +126,10 @@ export default function ChannelPage() {
     e.preventDefault();
     if (!newTweetContent.trim()) return;
     try {
-      const res = await fetch("/api/v1/tweets", {
+      const res = await apiClient("/api/v1/tweets", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content: newTweetContent }),
-        
+
       });
 
       if (res.ok) {
@@ -145,9 +145,9 @@ export default function ChannelPage() {
   const handleDeleteTweet = async (tweetId) => {
     if (!confirm("Are you sure?")) return;
     try {
-      const res = await fetch(`/api/v1/tweets/${tweetId}`, {
+      const res = await apiClient(`/api/v1/tweets/${tweetId}`, {
         method: "DELETE",
-        
+
       });
       if (res.ok) {
         fetchTweets();
@@ -218,25 +218,22 @@ export default function ChannelPage() {
 
       <div className={styles.tabs}>
         <button
-          className={`${styles.tab} ${
-            activeTab === "videos" ? styles.activeTab : ""
-          }`}
+          className={`${styles.tab} ${activeTab === "videos" ? styles.activeTab : ""
+            }`}
           onClick={() => setActiveTab("videos")}
         >
           Videos
         </button>
         <button
-          className={`${styles.tab} ${
-            activeTab === "playlists" ? styles.activeTab : ""
-          }`}
+          className={`${styles.tab} ${activeTab === "playlists" ? styles.activeTab : ""
+            }`}
           onClick={() => setActiveTab("playlists")}
         >
           Playlists
         </button>
         <button
-          className={`${styles.tab} ${
-            activeTab === "tweets" ? styles.activeTab : ""
-          }`}
+          className={`${styles.tab} ${activeTab === "tweets" ? styles.activeTab : ""
+            }`}
           onClick={() => setActiveTab("tweets")}
         >
           Tweets

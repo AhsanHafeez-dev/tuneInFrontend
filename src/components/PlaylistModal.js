@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import styles from './PlaylistModal.module.css';
+import apiClient from '@/utils/apiClient';
 
 export default function PlaylistModal({ videoId, onClose }) {
     const [playlists, setPlaylists] = useState([]);
@@ -15,12 +16,12 @@ export default function PlaylistModal({ videoId, onClose }) {
 
     const fetchUserPlaylists = async () => {
         try {
-            const userRes = await fetch('/api/v1/users/current-user');
+            const userRes = await apiClient('/api/v1/users/current-user');
             if (!userRes.ok) throw new Error('Not logged in');
             const userData = await userRes.json();
             const userId = userData.data._id;
 
-            const res = await fetch(`/api/v1/playlist/user/${userId}`);
+            const res = await apiClient(`/api/v1/playlist/user/${userId}`);
             const data = await res.json();
             if (res.ok) {
                 setPlaylists(data.data);
@@ -37,9 +38,8 @@ export default function PlaylistModal({ videoId, onClose }) {
         if (!newPlaylistData.name.trim()) return;
         setCreating(true);
         try {
-            const res = await fetch('/api/v1/playlist', {
+            const res = await apiClient('/api/v1/playlist', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newPlaylistData)
             });
             const data = await res.json();
@@ -69,7 +69,7 @@ export default function PlaylistModal({ videoId, onClose }) {
                 ? `/api/v1/playlist/remove/${videoId}/${playlistId}`
                 : `/api/v1/playlist/add/${videoId}/${playlistId}`;
 
-            const res = await fetch(endpoint, { method: 'PATCH' });
+            const res = await apiClient(endpoint, { method: 'PATCH' });
             if (res.ok) {
                 alert(`Video ${isPresent ? 'removed from' : 'added to'} playlist`);
                 // Optimistic update could happen here

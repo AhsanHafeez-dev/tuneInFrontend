@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import styles from './page.module.css';
 import PlaylistModal from '@/components/PlaylistModal';
+import apiClient from '@/utils/apiClient';
 
 // --- Comment Components ---
 
@@ -23,17 +24,16 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
         e.preventDefault();
         if (!replyContent.trim()) return;
         try {
-            const res = await fetch(
-              `https://tune-in-backend.vercel.app/api/v1/comments/${videoId}`,
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  content: replyContent,
-                  parentComment: comment.id,
-                }),
-                
-              }
+            const res = await apiClient(
+                `https://tune-in-backend.vercel.app/api/v1/comments/${videoId}`,
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        content: replyContent,
+                        parentComment: comment.id,
+                    }),
+
+                }
             );
             if (res.ok) {
                 setReplyContent('');
@@ -51,9 +51,9 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
     const handleLike = async () => {
         if (!user) return alert("Please login to like");
         try {
-            const res = await fetch(
-              `https://tune-in-backend.vercel.app/api/v1/likes/toggle/c/${comment.id}`,
-              { method: "POST" ,}
+            const res = await apiClient(
+                `https://tune-in-backend.vercel.app/api/v1/likes/toggle/c/${comment.id}`,
+                { method: "POST", }
             );
             if (res.ok) {
                 const data = await res.json();
@@ -158,8 +158,8 @@ function CommentSection({ comments, videoId, user, onRefresh }) {
 
 export default function WatchPage() {
     const { videoId } = useParams();
-    console.log("got from params",videoId);
-    
+    console.log("got from params", videoId);
+
     const searchParams = useSearchParams();
     const playlistId = searchParams.get('list');
 
@@ -178,14 +178,13 @@ export default function WatchPage() {
 
     const fetchVideo = async () => {
         try {
-            const res = await fetch(
-                `https://tune-in-backend.vercel.app/api/v1/videos/${videoId}`,
-                {}
+            const res = await apiClient(
+                `https://tune-in-backend.vercel.app/api/v1/videos/${videoId}`
             );
-            
+
             const data = await res.json();
             console.log(data);
-            
+
             if (res.ok) {
                 setVideo(data.data);
                 checkSubscription(data.data.owner.id);
@@ -201,17 +200,16 @@ export default function WatchPage() {
     const fetchSuggestedVideos = async () => {
         try {
             // Fetch random videos or latest
-            const res = await fetch(
-                `https://tune-in-backend.vercel.app/api/v1/videos?page=1&limit=15`,
-                {}
+            const res = await apiClient(
+                `https://tune-in-backend.vercel.app/api/v1/videos?page=1&limit=15`
             );
             const data = await res.json();
             if (res.ok) {
                 // Filter out current video
                 const others = (data.data.docs || []).filter(v => v.id !== videoId);
                 setSuggestedVideos(others);
-                console.log("suggested vieos",suggestedVideos);
-                
+                console.log("suggested vieos", suggestedVideos);
+
             }
         } catch (error) {
             console.error("Failed to fetch suggestions", error);
@@ -221,8 +219,8 @@ export default function WatchPage() {
     const fetchPlaylist = async () => {
         if (!playlistId) return;
         try {
-            const res = await fetch(
-              `https://tune-in-backend.vercel.app/api/v1/playlist/${playlistId}`,{}
+            const res = await apiClient(
+                `https://tune-in-backend.vercel.app/api/v1/playlist/${playlistId}`
             );
             const data = await res.json();
             if (res.ok) {
@@ -236,9 +234,8 @@ export default function WatchPage() {
     // Fetch comments
     const fetchComments = async () => {
         try {
-            const res = await fetch(
-              `https://tune-in-backend.vercel.app/api/v1/comments/${videoId}?page=1&limit=10`,
-              { credentials: true }
+            const res = await apiClient(
+                `https://tune-in-backend.vercel.app/api/v1/comments/${videoId}?page=1&limit=10`
             );
             const data = await res.json();
             if (res.ok) setComments(data.data.docs);
@@ -257,9 +254,9 @@ export default function WatchPage() {
     const toggleLike = async () => {
         if (!user) return alert('Please login to like');
         try {
-            const res = await fetch(
-              `https://tune-in-backend.vercel.app/api/v1/likes/toggle/v/${videoId}`,
-              { method: "POST", credentials: true }
+            const res = await apiClient(
+                `https://tune-in-backend.vercel.app/api/v1/likes/toggle/v/${videoId}`,
+                { method: "POST" }
             );
             const data = await res.json();
             if (res.ok) setIsLiked(data.data.isLiked);
@@ -271,9 +268,9 @@ export default function WatchPage() {
     const toggleSubscribe = async () => {
         if (!user) return alert('Please login to subscribe');
         try {
-            const res = await fetch(
-              `https://tune-in-backend.vercel.app/api/v1/subscriptions/c/${video.owner.id}`,
-              { method: "POST", credentials: true }
+            const res = await apiClient(
+                `https://tune-in-backend.vercel.app/api/v1/subscriptions/c/${video.owner.id}`,
+                { method: "POST" }
             );
             const data = await res.json();
             if (res.ok) setIsSubscribed(data.data.subscribed);
@@ -296,14 +293,12 @@ export default function WatchPage() {
         e.preventDefault();
         if (!newComment.trim()) return;
         try {
-            const res = await fetch(
-              `https://tune-in-backend.vercel.app/api/v1/comments/${videoId}`,
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ content: newComment }),
-                credentials: true,
-              }
+            const res = await apiClient(
+                `https://tune-in-backend.vercel.app/api/v1/comments/${videoId}`,
+                {
+                    method: "POST",
+                    body: JSON.stringify({ content: newComment }),
+                }
             );
             if (res.ok) {
                 setNewComment('');
@@ -431,7 +426,8 @@ export default function WatchPage() {
                                 href={`/watch/${v.id}`}
                                 key={v.id}
                                 className={styles.queueItem}
-                                onClick={(event)=>{console.log(event.target);
+                                onClick={(event) => {
+                                    console.log(event.target);
                                 }}
                             >
                                 <div className={styles.queueThumbWrapper}>

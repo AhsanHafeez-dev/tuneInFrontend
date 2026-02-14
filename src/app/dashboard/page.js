@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import styles from './page.module.css';
+import apiClient from '@/utils/apiClient';
 
 import PlaylistModal from '@/components/PlaylistModal';
 
@@ -28,8 +29,8 @@ export default function DashboardPage() {
         // Fetch channel stats & videos
         const fetchDashboardData = async () => {
             try {
-                const statsRes = await fetch('/api/v1/dashboard/stats');
-                const videosRes = await fetch('/api/v1/dashboard/videos');
+                const statsRes = await apiClient('/api/v1/dashboard/stats');
+                const videosRes = await apiClient('/api/v1/dashboard/videos');
 
                 if (statsRes.ok) setStats((await statsRes.json()).data);
                 if (videosRes.ok) setVideos((await videosRes.json()).data);
@@ -47,7 +48,7 @@ export default function DashboardPage() {
         formData.append('coverImage', coverFile);
 
         try {
-            const res = await fetch('/api/v1/users/cover-image', {
+            const res = await apiClient('/api/v1/users/cover-image', {
                 method: 'PATCH',
                 body: formData
             });
@@ -76,7 +77,7 @@ export default function DashboardPage() {
         formData.append('thumbnail', thumbnail);
 
         try {
-            const res = await fetch('/api/v1/videos', {
+            const res = await apiClient('/api/v1/videos', {
                 method: 'POST',
                 body: formData
             });
@@ -102,7 +103,7 @@ export default function DashboardPage() {
     const handleDeleteVideo = async (videoId) => {
         if (!confirm("Are you sure you want to delete this video?")) return;
         try {
-            const res = await fetch(`/api/v1/videos/${videoId}`, { method: 'DELETE' });
+            const res = await apiClient(`/api/v1/videos/${videoId}`, { method: 'DELETE' });
             if (res.ok) {
                 setVideos(videos.filter(v => v.id !== videoId));
                 setStats(prev => ({ ...prev, totalVideos: prev.totalVideos - 1 }));
@@ -116,7 +117,7 @@ export default function DashboardPage() {
 
     const handleTogglePublish = async (videoId) => {
         try {
-            const res = await fetch(`/api/v1/videos/toggle/publish/${videoId}`, { method: 'PATCH' });
+            const res = await apiClient(`/api/v1/videos/toggle/publish/${videoId}`, { method: 'PATCH' });
             const data = await res.json();
             if (res.ok) {
                 setVideos(videos.map(v => v.id === videoId ? { ...v, isPublished: data.data.isPublished } : v));

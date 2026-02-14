@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import styles from './Navbar.module.css';
+import apiClient from '@/utils/apiClient';
 
 const Navbar = () => {
     const { user, logout } = useAuth();
@@ -15,7 +16,7 @@ const Navbar = () => {
         const timer = setTimeout(async () => {
             if (query.trim().length > 1) {
                 try {
-                    const res = await fetch(`/api/v1/videos?query=${encodeURIComponent(query)}&limit=5`);
+                    const res = await apiClient(`/api/v1/videos?query=${encodeURIComponent(query)}&limit=5`);
                     const data = await res.json();
                     if (res.ok) {
                         setSuggestions(data.data.docs || []);

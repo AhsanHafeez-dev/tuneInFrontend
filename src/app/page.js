@@ -3,6 +3,7 @@ import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
+import apiClient from '@/utils/apiClient';
 
 function HomeContent() {
   const [videos, setVideos] = useState([]);
@@ -18,7 +19,7 @@ function HomeContent() {
           ? `/api/v1/videos?query=${encodeURIComponent(query)}&page=1&limit=50`
           : `/api/v1/videos?page=1&limit=50`;
 
-        const res = await fetch(url, {
+        const res = await apiClient(url, {
           cache: "no-store",
           credentials: "include",
         });
@@ -57,8 +58,8 @@ function HomeContent() {
         </div>
       ) : (
         videos.map((video) => (
-          <div key={video.id} className={styles.card}>
-            <Link href={`/watch/${video.id}`} className={styles.thumbnailWrapper}>
+          <div key={video._id || video.id} className={styles.card}>
+            <Link href={`/watch/${video._id || video.id}`} className={styles.thumbnailWrapper}>
               <img src={video.thumbnail} alt={video.title} className={styles.thumbnail} />
               <span className={styles.duration}>{Math.floor(video.duration)}s</span>
             </Link>
@@ -72,7 +73,7 @@ function HomeContent() {
               </Link>
               <div className={styles.details}>
                 <h3 className={styles.title}>
-                  <Link href={`/watch/${video.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Link href={`/watch/${video._id || video.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     {video.title}
                   </Link>
                 </h3>

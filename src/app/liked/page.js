@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import styles from './page.module.css';
 import { useRouter } from 'next/navigation';
+import apiClient from '@/utils/apiClient';
 
 export default function LikedVideosPage() {
     const { user, loading: authLoading } = useAuth();
@@ -24,7 +25,7 @@ export default function LikedVideosPage() {
 
     const fetchLikedVideos = async () => {
         try {
-            const res = await fetch('/api/v1/likes/videos');
+            const res = await apiClient('/api/v1/likes/videos');
             if (res.ok) {
                 const data = await res.json();
                 setVideos(data.data || []);

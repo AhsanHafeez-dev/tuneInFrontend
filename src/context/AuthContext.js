@@ -1,5 +1,6 @@
 'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
+import apiClient from '@/utils/apiClient';
 
 const AuthContext = createContext();
 
@@ -9,7 +10,8 @@ export function AuthProvider({ children }) {
 
     const checkUser = async () => {
         try {
-            const res = await fetch('/api/v1/users/current-user');
+            // using apiClient here to send token if it exists
+            const res = await apiClient('/api/v1/users/current-user');
             if (res.ok) {
                 const data = await res.json();
                 setUser(data.data);
@@ -25,17 +27,26 @@ export function AuthProvider({ children }) {
     };
 
     useEffect(() => {
-        checkUser();
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+            checkUser();
+        } else {
+            setLoading(false);
+        }
     }, []);
 
-    const login = (userData) => {
+    const login = (userData, accessToken) => {
         setUser(userData);
+        if (accessToken) {
+            localStorage.setItem("accessToken", accessToken);
+        }
     };
 
     const logout = async () => {
         try {
-            await fetch('/api/v1/users/logout', { method: 'POST' });
+            await apiClient('/api/v1/users/logout', { method: 'POST' });
             setUser(null);
+            localStorage.removeItem("accessToken");
         } catch (error) {
             console.error('Logout failed', error);
         }

@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "../login/page.module.css"; // Reusing login styles
+import apiClient from '@/utils/apiClient';
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -27,7 +28,7 @@ export default function RegisterPage() {
     try {
       console.log(data);
 
-      const res = await fetch("  /api/v1/users/register", {
+      const res = await apiClient("/api/v1/users/register", {
         method: "POST",
         body: data,
       });

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import styles from './Sidebar.module.css';
+import apiClient from '@/utils/apiClient';
 
 export default function Sidebar() {
     const { user } = useAuth();
@@ -22,7 +23,7 @@ export default function Sidebar() {
         try {
             // Using /api/v1/subscriptions/c/:channelId endpoint which currently maps to getSubscribedChannels
             // and we patched the controller to treat channelId as subscriberId
-            const res = await fetch(`/api/v1/subscriptions/c/${user._id}`);
+            const res = await apiClient(`/api/v1/subscriptions/c/${user._id}`);
             if (res.ok) {
                 const data = await res.json();
                 setSubscriptions(data.data || []);
