@@ -423,6 +423,8 @@ export default function WatchPage() {
                                 href={`/watch/${v.id}`}
                                 key={v.id}
                                 className={styles.queueItem}
+                                onClick={(event)=>{console.log(event.target);
+                                }}
                             >
                                 <div className={styles.queueThumbWrapper}>
                                     <img src={v.thumbnail} alt={v.title} className={styles.queueThumb} />
