@@ -240,7 +240,7 @@ export default function WatchPage() {
             const data = await res.json();
             console.log("comments response",data);
             
-            if (res.ok) setComments(data.data.comments);
+            if (res.ok) setComments(data.data);
         } catch (error) {
             console.error(error);
         }
