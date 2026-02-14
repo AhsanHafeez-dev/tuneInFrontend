@@ -10,8 +10,8 @@ import apiClient from '@/utils/apiClient';
 // --- Comment Components ---
 
 function CommentItem({ comment, videoId, user, onRefresh }) {
-    console.log("mapping",comment);
-    
+    console.log("mapping", comment);
+
     const [isReplying, setIsReplying] = useState(false);
     const [replyContent, setReplyContent] = useState('');
     const [liked, setLiked] = useState(false);
@@ -59,7 +59,7 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
             );
             if (res.ok) {
                 const data = await res.json();
-                setLiked(Object.keys(data.data).length>0  );
+                setLiked(Object.keys(data.data).length > 0);
             }
         } catch (error) {
             console.error(error);
@@ -188,7 +188,7 @@ export default function WatchPage() {
 
             const data = await res.json();
             console.log(data);
-            
+
 
             if (res.ok) {
                 setVideo(data.data);
@@ -196,9 +196,9 @@ export default function WatchPage() {
                 fetchSuggestedVideos();
                 setIsLiked(data.data?.isLiked);
                 setIsSubscribed(data.data?.isSubscribed);
-                
-                console.log("setting is Liked",data.data);
-                
+
+                console.log("setting is Liked", data.data);
+
             }
         } catch (error) {
             console.error(error);
@@ -248,8 +248,8 @@ export default function WatchPage() {
                 `https://tune-in-backend.vercel.app/api/v1/comments/${videoId}?page=1&limit=10`
             );
             const data = await res.json();
-            console.log("comments response",data);
-            
+            console.log("comments response", data);
+
             if (res.ok) setComments(data.data);
         } catch (error) {
             console.error(error);
@@ -272,7 +272,7 @@ export default function WatchPage() {
             );
             const data = await res.json();
 
-            if (res.ok) setIsLiked(Object.keys(data.data).length>0);
+            if (res.ok) setIsLiked(Object.keys(data.data).length > 0);
         } catch (error) {
             console.error(error);
         }
@@ -292,15 +292,28 @@ export default function WatchPage() {
         }
     }
 
+    const addToHistory = async () => {
+        if (!user) return;
+        try {
+            await apiClient('/api/v1/users/history', {
+                method: 'POST',
+                body: JSON.stringify({ videoId })
+            });
+        } catch (error) {
+            console.error("Failed to add to history", error);
+        }
+    };
+
     useEffect(() => {
         if (videoId) {
             fetchVideo();
             fetchComments();
+            addToHistory();
         }
         if (playlistId) {
             fetchPlaylist();
         }
-    }, [videoId, playlistId]);
+    }, [videoId, playlistId, user]);
 
     const handleComment = async (e) => {
         e.preventDefault();
@@ -316,7 +329,7 @@ export default function WatchPage() {
             if (res.ok) {
                 setNewComment('');
                 fetchComments();
-                
+
             }
         } catch (error) {
             console.error(error);
@@ -325,8 +338,8 @@ export default function WatchPage() {
 
     if (loading) return <div className="loading">Loading player...</div>;
     if (!video) return <div className="loading">Video not found</div>;
-    
-    
+
+
     return (
         <div className={styles.container}>
             <div className={styles.mainContent}>
