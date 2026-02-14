@@ -57,7 +57,7 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
             );
             if (res.ok) {
                 const data = await res.json();
-                setLiked(data.data.isLiked);
+                setLiked(Object.keys(data.data).length>0  );
             }
         } catch (error) {
             console.error(error);
@@ -259,7 +259,7 @@ export default function WatchPage() {
                 { method: "POST" }
             );
             const data = await res.json();
-            if (res.ok) setIsLiked(data.data.isLiked);
+            if (res.ok) setIsLiked(Object.keys(data.data).length>0);
         } catch (error) {
             console.error(error);
         }
