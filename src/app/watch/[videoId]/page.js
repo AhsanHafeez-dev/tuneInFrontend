@@ -238,7 +238,7 @@ export default function WatchPage() {
                 `https://tune-in-backend.vercel.app/api/v1/comments/${videoId}?page=1&limit=10`
             );
             const data = await res.json();
-            if (res.ok) setComments(data.data.docs);
+            if (res.ok) setComments(data.data.comments);
         } catch (error) {
             console.error(error);
         }
@@ -370,7 +370,7 @@ export default function WatchPage() {
                 </div>
 
                 <div className={styles.commentsSection}>
-                    <h3>{comments.length} Comments</h3>
+                    <h3>{comments?.length} Comments</h3>
                     {user && (
                         <form onSubmit={handleComment} className={styles.commentForm}>
                             <input
@@ -401,7 +401,7 @@ export default function WatchPage() {
                     <div className={styles.playlistQueue}>
                         <div className={styles.queueHeader}>
                             <h3>{playlist.name}</h3>
-                            <span style={{ fontSize: '0.85rem', color: 'gray' }}>{playlist.owner?.fullName} - {playlist.totalVideos || playlist.videos.length} videos</span>
+                            <span style={{ fontSize: '0.85rem', color: 'gray' }}>{playlist.owner?.fullName} - {playlist.totalVideos || playlist.videos?.length} videos</span>
                         </div>
                         <div className={styles.queueList}>
                             {playlist.videos.map(v => (
