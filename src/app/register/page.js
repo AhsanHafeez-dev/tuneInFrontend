@@ -59,8 +59,8 @@ export default function RegisterPage() {
                     <input
                         type="text"
                         placeholder="Username"
-                        value={formData.username}
-                        onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                        value={formData.userName}
+                        onChange={(e) => setFormData({ ...formData, userName: e.target.value })}
                         required
                     />
                     <input
