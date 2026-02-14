@@ -18,7 +18,9 @@ const apiClient = async (url, options = {}) => {
         ...options,
         headers,
     });
-
+    const abc = await response.json();
+    console.log(abc);
+    
     return response;
 };
 
