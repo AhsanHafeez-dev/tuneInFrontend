@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import styles from '../login/page.module.css'; // Reusing login styles
 
 export default function RegisterPage() {
-    const [formData, setFormData] = useState({ fullName: '', email: '', username: '', password: '' });
+    const [formData, setFormData] = useState({ fullName: '', email: '', userName: '', password: '' });
     const [avatar, setAvatar] = useState(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
