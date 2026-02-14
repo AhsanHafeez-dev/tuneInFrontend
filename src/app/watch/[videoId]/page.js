@@ -324,7 +324,7 @@ export default function WatchPage() {
                 <div className={styles.info}>
                     <h1 className={styles.title}>{video.title}</h1>
                     <div className={styles.actions}>
-                        <Link href={`/c/${video.owner.userName}`} className={styles.channel}>
+                        <Link href={`/c/${video.owner?.userName}`} className={styles.channel}>
                             {video.owner.avatar ? (
                                 <img src={video.owner.avatar} alt={video.owner.fullName} className={styles.avatarPlaceholder} style={{ objectFit: 'cover' }} />
                             ) : (
