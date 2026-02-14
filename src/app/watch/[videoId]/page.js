@@ -128,11 +128,11 @@ function CommentSection({ comments, videoId, user, onRefresh }) {
         const map = {};
         const roots = [];
         // Init map
-        list.forEach((c) => {
+        list?.forEach((c) => {
             map[String(c.id)] = { ...c, replies: [] };
         });
         // Build tree
-        list.forEach(c => {
+        list?.forEach(c => {
             const id = String(c.id);
             const parentId = c.parentComment ? String(c.parentComment) : null;
 
