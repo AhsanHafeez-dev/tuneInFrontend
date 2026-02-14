@@ -1,12 +1,12 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
-import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import styles from './page.module.css';
 
 export default function ChannelPage() {
-    const { username } = useParams();
+    const { username } = useParams();   
     const { user } = useAuth();
     const [channel, setChannel] = useState(null);
     const [videos, setVideos] = useState([]);
@@ -18,7 +18,7 @@ export default function ChannelPage() {
     const [tweets, setTweets] = useState([]);
     const [newTweetContent, setNewTweetContent] = useState('');
 
-    const isOwner = user && channel && (user?._id?.toString() === channel?._id?.toString());
+    const isOwner = user && channel && (user?.id?.toString() === channel?.id?.toString());
 
     useEffect(() => {
         if (username) {
@@ -40,8 +40,8 @@ export default function ChannelPage() {
             if (res.ok) {
                 setChannel(data.data);
                 setIsSubscribed(data.data.isSubscribed);
-                fetchChannelVideos(data.data._id);
-                fetchChannelPlaylists(data.data._id);
+                fetchChannelVideos(data.data.id);
+                fetchChannelPlaylists(data.data.id);
             }
         } catch (error) {
             console.error(error);
@@ -77,7 +77,7 @@ export default function ChannelPage() {
     const fetchTweets = async () => {
         if (!channel) return;
         try {
-            const res = await fetch(`/api/v1/tweets/user/${channel._id}`);
+            const res = await fetch(`/api/v1/tweets/user/${channel.id}`);
             const data = await res.json();
             if (res.ok) setTweets(data.data);
         } catch (error) {
@@ -88,7 +88,7 @@ export default function ChannelPage() {
     const toggleSubscribe = async () => {
         if (!user) return alert('Please login to subscribe');
         try {
-            const res = await fetch(`/api/v1/subscriptions/c/${channel._id}`, { method: 'POST' });
+            const res = await fetch(`/api/v1/subscriptions/c/${channel.id}`, { method: 'POST' });
             const data = await res.json();
             if (res.ok) {
                 setIsSubscribed(data.data.subscribed);
@@ -210,7 +210,7 @@ export default function ChannelPage() {
                             <p>No videos uploaded yet.</p>
                         ) : (
                             videos.map(video => (
-                                <Link href={`/watch/${video._id}`} key={video._id} className={styles.videoCard}>
+                                <Link href={`/watch/${video.id}`} key={video.id} className={styles.videoCard}>
                                     <img src={video.thumbnail} alt={video.title} className={styles.thumbnail} />
                                     <div className={styles.cardInfo}>
                                         <h3>{video.title}</h3>
@@ -228,11 +228,11 @@ export default function ChannelPage() {
                             <p>No playlists created yet.</p>
                         ) : (
                             playlists.map(playlist => {
-                                const firstVidId = playlist.firstVideo?._id;
+                                const firstVidId = playlist.firstVideo?.id;
                                 return (
                                     <Link
-                                        href={firstVidId ? `/watch/${firstVidId}?list=${playlist._id}` : '#'}
-                                        key={playlist._id}
+                                        href={firstVidId ? `/watch/${firstVidId}?list=${playlist.id}` : '#'}
+                                        key={playlist.id}
                                         className={styles.playlistCard}
                                         onClick={e => !firstVidId && e.preventDefault()}
                                         style={{ cursor: firstVidId ? 'pointer' : 'default' }}
@@ -278,7 +278,7 @@ export default function ChannelPage() {
 
                         <div className={styles.tweetsList}>
                             {tweets.map(tweet => (
-                                <div key={tweet._id} className={styles.tweetCard}>
+                                <div key={tweet.id} className={styles.tweetCard}>
                                     <div className={styles.tweetHeader}>
                                         <div className={styles.avatarPlaceholder} style={{ width: 30, height: 30, fontSize: '0.8rem' }}>
                                             {channel.avatar ? <img src={channel.avatar} style={{ width: '100%', height: '100%', borderRadius: '50%' }} /> : channel.fullName?.[0]}
@@ -288,7 +288,7 @@ export default function ChannelPage() {
                                             <span className={styles.tweetDate}>{new Date(tweet.createdAt).toLocaleDateString()}</span>
                                         </div>
                                         {isOwner && (
-                                            <button onClick={() => handleDeleteTweet(tweet._id)} className={styles.deleteBtn}>🗑️</button>
+                                            <button onClick={() => handleDeleteTweet(tweet.id)} className={styles.deleteBtn}>🗑️</button>
                                         )}
                                     </div>
                                     <p className={styles.tweetContent}>{tweet.content}</p>
