@@ -36,6 +36,8 @@ export default function ChannelPage() {
 
   const fetchChannelProfile = async () => {
     try {
+      console.log(`fetching user ${username}`);
+      
       const res = await fetch(`/api/v1/users/c/${username}`);
       const data = await res.json();
       if (res.ok) {
@@ -187,7 +189,7 @@ export default function ChannelPage() {
         </div>
         <div className={styles.channelInfo}>
           <h1>{channel.fullName}</h1>
-          <span className={styles.handle}>@{channel.username}</span>
+          <span className={styles.handle}>@{channel?.username}</span>
           <div className={styles.stats}>
             <span>{channel.subscribersCount} subscribers</span>
             <span>•</span>
