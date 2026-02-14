@@ -18,7 +18,7 @@ function HomeContent() {
           ? `/api/v1/videos?query=${encodeURIComponent(query)}&page=1&limit=50`
           : `/api/v1/videos?page=1&limit=50`;
 
-        const res = await fetch(url, { cache: 'no-store' });
+        const res = await fetch(url, { cache: 'no-store' ,credentials:true});
         if (res.ok) {
           const data = await res.json();
           setVideos(data?.data?.docs || data?.data || []);
