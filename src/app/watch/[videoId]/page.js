@@ -204,7 +204,7 @@ export default function WatchPage() {
                 // Filter out current video
                 const others = (data.data.docs || []).filter(v => v.id !== videoId);
                 setSuggestedVideos(others);
-                console.log(suggestedVideos);
+                console.log("suggested vieos",suggestedVideos);
                 
             }
         } catch (error) {
