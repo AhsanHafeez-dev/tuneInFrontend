@@ -265,6 +265,7 @@ export default function WatchPage() {
                 { method: "POST" }
             );
             const data = await res.json();
+
             if (res.ok) setIsLiked(Object.keys(data.data).length>0);
         } catch (error) {
             console.error(error);
@@ -317,7 +318,8 @@ export default function WatchPage() {
 
     if (loading) return <div className="loading">Loading player...</div>;
     if (!video) return <div className="loading">Video not found</div>;
-
+    setIsLiked(video.isLiked);
+    
     return (
         <div className={styles.container}>
             <div className={styles.mainContent}>
