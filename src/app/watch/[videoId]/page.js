@@ -32,7 +32,7 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
                   content: replyContent,
                   parentComment: comment.id,
                 }),
-                credentials:true
+                credentials:'include'
               }
             );
             if (res.ok) {
@@ -53,7 +53,7 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
         try {
             const res = await fetch(
               `https://tune-in-backend.vercel.app/api/v1/likes/toggle/c/${comment.id}`,
-              { method: "POST" ,credentials:true}
+              { method: "POST" ,credentials:'include'}
             );
             if (res.ok) {
                 const data = await res.json();
@@ -180,7 +180,7 @@ export default function WatchPage() {
         try {
             const res = await fetch(
                 `https://tune-in-backend.vercel.app/api/v1/videos/${videoId}`,
-                {credentials:true}
+                {credentials:'include'}
             );
             const data = await res.json();
             if (res.ok) {
@@ -200,7 +200,7 @@ export default function WatchPage() {
             // Fetch random videos or latest
             const res = await fetch(
                 `https://tune-in-backend.vercel.app/api/v1/videos?page=1&limit=15`,
-                {credentials:true}
+                {credentials:'include'}
             );
             const data = await res.json();
             if (res.ok) {
@@ -219,7 +219,7 @@ export default function WatchPage() {
         if (!playlistId) return;
         try {
             const res = await fetch(
-              `https://tune-in-backend.vercel.app/api/v1/playlist/${playlistId}`,{credentials:true}
+              `https://tune-in-backend.vercel.app/api/v1/playlist/${playlistId}`,{credentials:'include'}
             );
             const data = await res.json();
             if (res.ok) {
