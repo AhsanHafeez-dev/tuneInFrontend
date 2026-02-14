@@ -160,8 +160,11 @@ function CommentSection({ comments, videoId, user, onRefresh }) {
 
 
 
+import { useRef } from 'react';
+
 export default function WatchPage() {
     const { videoId } = useParams();
+    const videoRef = useRef(null);
     console.log("got from params", videoId);
 
     const searchParams = useSearchParams();
@@ -197,6 +200,14 @@ export default function WatchPage() {
                 fetchSuggestedVideos();
                 setIsLiked(data.data?.isLiked);
                 setIsSubscribed(data.data?.isSubscribed);
+
+                if (data.data?.watchedTill && videoRef.current) {
+                    const startTime = data.data.watchedTill;
+                    // Small delay or check readyState might be safer, but direct set often works if element exists
+                    if (videoRef.current) {
+                        videoRef.current.currentTime = startTime;
+                    }
+                }
 
                 console.log("setting is Liked", data.data);
 
@@ -369,12 +380,18 @@ export default function WatchPage() {
             <div className={styles.mainContent}>
                 <div className={styles.playerWrapper}>
                     <video
+                        ref={videoRef}
                         src={video.videoFile}
                         poster={video.thumbnail}
                         controls
                         autoPlay
                         className={styles.videoPlayer}
                         onTimeUpdate={handleTimeUpdate}
+                        onLoadedMetadata={() => {
+                            if (video.watchedTill && videoRef.current) {
+                                videoRef.current.currentTime = video.watchedTill;
+                            }
+                        }}
                     />
                 </div>
                 <div className={styles.info}>
