@@ -194,7 +194,7 @@ export default function WatchPage() {
                 setVideo(data.data);
                 checkSubscription(data.data.owner.id);
                 fetchSuggestedVideos();
-                setIsLiked(video?.isLiked);
+                setIsLiked(data.data?.isLiked);
                 
                 console.log("setting is Liked",data.data);
                 
