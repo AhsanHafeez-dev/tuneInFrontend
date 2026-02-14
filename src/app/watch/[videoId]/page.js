@@ -271,7 +271,7 @@ export default function WatchPage() {
             );
             const data = await res.json();
 
-            
+            if (res.ok) setIsLiked(Object.keys(data.data).length>0);
         } catch (error) {
             console.error(error);
         }
