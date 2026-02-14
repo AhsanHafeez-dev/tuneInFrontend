@@ -21,7 +21,7 @@ function HomeContent() {
 
         const res = await apiClient(url, {
           cache: "no-store",
-          credentials: "include",
+          
         });
         if (res.ok) {
           const data = await res.json();
