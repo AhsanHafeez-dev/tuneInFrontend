@@ -175,6 +175,7 @@ export default function WatchPage() {
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [loading, setLoading] = useState(true);
     const [showPlaylistModal, setShowPlaylistModal] = useState(false);
+    const [lastSentBucket, setLastSentBucket] = useState(0);
 
     // Playlist State
     const [playlist, setPlaylist] = useState(null);
@@ -304,8 +305,31 @@ export default function WatchPage() {
         }
     };
 
+    const updateHistory = async (time) => {
+        if (!user) return;
+        try {
+            await apiClient('/api/v1/users/history', {
+                method: 'PATCH',
+                body: JSON.stringify({ videoId, watchTime: time })
+            });
+        } catch (error) {
+            console.error("Failed to update history", error);
+        }
+    }
+
+    const handleTimeUpdate = (e) => {
+        const currentTime = e.target.currentTime;
+        const currentBucket = Math.floor(currentTime / 5);
+
+        if (currentBucket > lastSentBucket && currentBucket > 0) {
+            updateHistory(currentBucket * 5);
+            setLastSentBucket(currentBucket);
+        }
+    }
+
     useEffect(() => {
         if (videoId) {
+            setLastSentBucket(0);
             fetchVideo();
             fetchComments();
             addToHistory();
@@ -350,6 +374,7 @@ export default function WatchPage() {
                         controls
                         autoPlay
                         className={styles.videoPlayer}
+                        onTimeUpdate={handleTimeUpdate}
                     />
                 </div>
                 <div className={styles.info}>
