@@ -251,6 +251,8 @@ export default function WatchPage() {
             );
             const data = await res.json();
             if (res.ok) {
+                console.log("got play list data in watch/videoId",data.data);
+                
                 setPlaylist(data.data);
             }
         } catch (error) {
