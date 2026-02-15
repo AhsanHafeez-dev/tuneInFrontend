@@ -49,7 +49,7 @@ export default function ChannelPage() {
         setChannel(data.data);
         setIsSubscribed(data.data.isSubscribed);
         fetchChannelVideosOwn(data.data?.id)
-        fetchChannelPlaylists(data.data.id);
+        fetchChannelPlaylists(data.data?.id);
       }
     } catch (error) {
       console.error(error);
