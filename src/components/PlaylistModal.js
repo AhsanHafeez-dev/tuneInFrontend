@@ -19,7 +19,7 @@ export default function PlaylistModal({ videoId, onClose }) {
             const userRes = await apiClient('/api/v1/users/current-user');
             if (!userRes.ok) throw new Error('Not logged in');
             const userData = await userRes.json();
-            const userId = userData.data._id;
+            const userId = userData.data.id;
 
             const res = await apiClient(`/api/v1/playlist/user/${userId}`);
             const data = await res.json();
@@ -95,12 +95,12 @@ export default function PlaylistModal({ videoId, onClose }) {
                             <div className={styles.list}>
                                 {playlists.length === 0 && <p style={{ textAlign: 'center', color: 'gray' }}>No playlists found</p>}
                                 {playlists.map(playlist => (
-                                    <div key={playlist._id} className={styles.item}>
+                                    <div key={playlist.id} className={styles.item}>
                                         <span className={styles.name}>{playlist.name}</span>
                                         {videoId && (
                                             <button
                                                 className={styles.actionBtn}
-                                                onClick={() => toggleVideoInPlaylist(playlist._id, false)}
+                                                onClick={() => toggleVideoInPlaylist(playlist.id, false)}
                                             >
                                                 Add
                                             </button>
