@@ -44,8 +44,8 @@ export default function ChannelPage() {
 
 
       if (res.ok) {
-        console.log("channel profile data ",data.data);
-        
+        console.log("channel profile data ", data.data);
+
         setChannel(data.data);
         setIsSubscribed(data.data.isSubscribed);
         fetchChannelVideosOwn(data.data?.id)
@@ -67,8 +67,8 @@ export default function ChannelPage() {
       );
       const data = await res.json();
       if (res.ok) {
-        
-        
+
+
         setVideos(data.data || []);
       }
     } catch (error) {
@@ -89,8 +89,8 @@ export default function ChannelPage() {
       );
       const data = await res.json();
       if (res.ok) {
-        console.log("videos of channel own ",data.data);
-        
+        console.log("videos of channel own ", data.data);
+
         setVideos(data.data || []);
       }
     } catch (error) {
@@ -102,8 +102,8 @@ export default function ChannelPage() {
       const res = await apiClient(`/api/v1/playlist/user/${userId}`, {});
       const data = await res.json();
       if (res.ok) {
-        console.log("playlist data ",data);
-        
+        console.log("playlist data ", data);
+
         setPlaylists(data.data || []);
       }
     } catch (error) {
@@ -245,25 +245,22 @@ export default function ChannelPage() {
 
       <div className={styles.tabs}>
         <button
-          className={`${styles.tab} ${
-            activeTab === "videos" ? styles.activeTab : ""
-          }`}
+          className={`${styles.tab} ${activeTab === "videos" ? styles.activeTab : ""
+            }`}
           onClick={() => setActiveTab("videos")}
         >
           Videos
         </button>
         <button
-          className={`${styles.tab} ${
-            activeTab === "playlists" ? styles.activeTab : ""
-          }`}
+          className={`${styles.tab} ${activeTab === "playlists" ? styles.activeTab : ""
+            }`}
           onClick={() => setActiveTab("playlists")}
         >
           Playlists
         </button>
         <button
-          className={`${styles.tab} ${
-            activeTab === "tweets" ? styles.activeTab : ""
-          }`}
+          className={`${styles.tab} ${activeTab === "tweets" ? styles.activeTab : ""
+            }`}
           onClick={() => setActiveTab("tweets")}
         >
           Tweets
@@ -306,23 +303,26 @@ export default function ChannelPage() {
               <p>No playlists created yet.</p>
             ) : (
               playlists.map((playlist) => {
-                const firstVidId = playlist?.videos[0]?.videoId;
+                const firstVideo = playlist.videos && playlist.videos.length > 0 ? playlist.videos[0] : null;
+                const firstVidId = firstVideo ? (firstVideo.id || firstVideo._id) : null;
+                const playlistId = playlist.id || playlist._id;
+
                 return (
                   <Link
                     href={
                       firstVidId
-                        ? `/watch/${firstVidId}`
+                        ? `/watch/${firstVidId}?list=${playlistId}`
                         : "#"
                     }
-                    key={playlist.id}
+                    key={playlistId}
                     className={styles.playlistCard}
                     onClick={(e) => !firstVidId && e.preventDefault()}
                     style={{ cursor: firstVidId ? "pointer" : "default" }}
                   >
                     <div className={styles.playlistThumbWrapper}>
-                      {playlist.firstVideo?.thumbnail ? (
+                      {firstVideo?.thumbnail ? (
                         <img
-                          src={playlist.firstVideo.thumbnail}
+                          src={firstVideo.thumbnail}
                           alt={playlist.name}
                           className={styles.thumbnail}
                         />
@@ -332,8 +332,14 @@ export default function ChannelPage() {
                             width: "100%",
                             height: "100%",
                             background: "var(--secondary)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            color: "gray"
                           }}
-                        ></div>
+                        >
+                          No Videos
+                        </div>
                       )}
                       <div className={styles.playlistOverlay}>
                         <span style={{ color: "white", fontWeight: "bold" }}>

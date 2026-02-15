@@ -186,7 +186,7 @@ export default function WatchPage() {
 
     const fetchVideo = async () => {
         try {
-            
+
             const res = await apiClient(
                 `https://tune-in-backend.vercel.app/api/v1/videos/c/${videoId}`
             );
@@ -196,8 +196,8 @@ export default function WatchPage() {
 
 
             if (res.ok) {
-                console.log("video data that i got is ",data.data);
-                
+                console.log("video data that i got is ", data.data);
+
                 setVideo(data.data);
                 checkSubscription(data.data.owner?.id);
                 fetchSuggestedVideos();
@@ -226,7 +226,7 @@ export default function WatchPage() {
         try {
             // Fetch random videos or latest
             const res = await apiClient(
-                `https://tune-in-backend.vercel.app/api/v1/videos?page=1&limit=15`
+                `https://tune-in-backend.vercel.app/api/v1/videos/suggested/${videoId}?page=1&limit=15`
             );
             const data = await res.json();
             if (res.ok) {
@@ -469,8 +469,7 @@ export default function WatchPage() {
             </div>
 
             <div className={styles.sidebar}>
-                {/* Could add Related Videos here if playlist is null, but for this task we focus on playlist */}
-                {playlist && playlist.videos ? (
+                {playlist && playlist.videos && (
                     <div className={styles.playlistQueue}>
                         <div className={styles.queueHeader}>
                             <h3>{playlist.name}</h3>
@@ -479,8 +478,8 @@ export default function WatchPage() {
                         <div className={styles.queueList}>
                             {playlist.videos.map(v => (
                                 <Link
-                                    href={`/watch/${v.id}?list=${playlist.id}`}
-                                    key={v.id}
+                                    href={`/watch/${v.id || v._id}?list=${playlist.id || playlist._id}`}
+                                    key={v.id || v._id}
                                     className={`${styles.queueItem} ${v.id === videoId ? styles.queueItemActive : ''}`}
                                 >
                                     <img src={v.thumbnail} alt={v.title} className={styles.queueThumb} />
@@ -492,32 +491,30 @@ export default function WatchPage() {
                             ))}
                         </div>
                     </div>
-                ) : (
-                    <div className={styles.suggestedList}>
-                        {suggestedVideos.map(v => (
-                            <Link
-                                href={`/watch/${v.id}`}
-                                key={v.id}
-                                className={styles.queueItem}
-                                onClick={(event) => {
-                                    console.log(event.target);
-                                }}
-                            >
-                                <div className={styles.queueThumbWrapper}>
-                                    <img src={v.thumbnail} alt={v.title} className={styles.queueThumb} />
-                                    <span className={styles.suggestedDuration}>{Math.floor(v.duration)}s</span>
-                                </div>
-                                <div className={styles.queueInfo}>
-                                    <h4 className={styles.queueTitle} title={v.title}>{v.title}</h4>
-                                    <span className={styles.queueChannel}>{v.owner?.fullName}</span>
-                                    <span style={{ fontSize: '0.75rem', color: 'gray', display: 'block', marginTop: '2px' }}>
-                                        {v.views} views • {new Date(v.createdAt).toLocaleDateString()}
-                                    </span>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
                 )}
+
+                <div className={styles.suggestedList}>
+                    <h3>Suggested Videos</h3>
+                    {suggestedVideos.map(v => (
+                        <Link
+                            href={`/watch/${v.id || v._id}`}
+                            key={v.id || v._id}
+                            className={styles.queueItem}
+                        >
+                            <div className={styles.queueThumbWrapper}>
+                                <img src={v.thumbnail} alt={v.title} className={styles.queueThumb} />
+                                <span className={styles.suggestedDuration}>{Math.floor(v.duration)}s</span>
+                            </div>
+                            <div className={styles.queueInfo}>
+                                <h4 className={styles.queueTitle} title={v.title}>{v.title}</h4>
+                                <span className={styles.queueChannel}>{v.owner?.fullName}</span>
+                                <span style={{ fontSize: '0.75rem', color: 'gray', display: 'block', marginTop: '2px' }}>
+                                    {v.views} views • {new Date(v.createdAt).toLocaleDateString()}
+                                </span>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
             </div>
 
             {showPlaylistModal && <PlaylistModal videoId={videoId} onClose={() => setShowPlaylistModal(false)} />}
