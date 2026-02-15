@@ -311,7 +311,7 @@ export default function ChannelPage() {
                   <Link
                     href={
                       firstVidId
-                        ? `/watch/${firstVidId}?list=${playlist.id}`
+                        ? `/watch/${firstVidId}`
                         : "#"
                     }
                     key={playlist.id}
