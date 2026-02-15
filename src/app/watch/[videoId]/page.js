@@ -196,7 +196,7 @@ export default function WatchPage() {
 
             if (res.ok) {
                 setVideo(data.data);
-                checkSubscription(data.data.owner.id);
+                checkSubscription(data.data.owner?.id);
                 fetchSuggestedVideos();
                 setIsLiked(data.data?.isLiked);
                 setIsSubscribed(data.data?.isSubscribed);
@@ -294,7 +294,7 @@ export default function WatchPage() {
         if (!user) return alert('Please login to subscribe');
         try {
             const res = await apiClient(
-                `https://tune-in-backend.vercel.app/api/v1/subscriptions/c/${video.owner.id}`,
+                `https://tune-in-backend.vercel.app/api/v1/subscriptions/c/${video.owner?.id}`,
                 { method: "POST" }
             );
             const data = await res.json();
@@ -405,7 +405,7 @@ export default function WatchPage() {
                             )}
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 <span>{video.owner?.fullName}</span>
-                                <span style={{ fontSize: '0.8rem', color: 'gray' }}>{video.owner.subscribersCount || 0} subscribers</span>
+                                <span style={{ fontSize: '0.8rem', color: 'gray' }}>{video.owner?.subscribersCount || 0} subscribers</span>
                             </div>
                         </Link>
                         <div className={styles.buttons}>
