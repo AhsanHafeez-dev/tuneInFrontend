@@ -100,6 +100,8 @@ export default function ChannelPage() {
       const res = await apiClient(`/api/v1/playlist/user/${userId}`, {});
       const data = await res.json();
       if (res.ok) {
+        console.log("playlist data ",data);
+        
         setPlaylists(data.data || []);
       }
     } catch (error) {
