@@ -90,11 +90,11 @@ export default function Sidebar() {
                 className={styles.channelItem}
               >
                 <img
-                  src={sub.subscriber.avatar || "https://via.placeholder.com/24"}
-                  alt={sub.subscriber?.userName}
+                  src={sub.channel.avatar || "https://via.placeholder.com/24"}
+                  alt={sub.channel?.userName}
                   className={styles.channelAvatar}
                 />
-                <span>{sub.subscriber?.fullName || sub.subscriber?.userName}</span>
+                <span>{sub.channel?.fullName || sub.channel?.userName}</span>
               </Link>
             ))}
             {subscriptions.length === 0 && (
