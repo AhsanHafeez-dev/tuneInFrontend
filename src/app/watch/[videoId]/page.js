@@ -231,7 +231,7 @@ export default function WatchPage() {
             const data = await res.json();
             if (res.ok) {
                 // Filter out current video
-                const others = (data.data.docs || []).filter(v => v.id !== videoId);
+                const others = (data.data || [])
                 setSuggestedVideos(others);
                 console.log("suggested vieos", suggestedVideos);
 
