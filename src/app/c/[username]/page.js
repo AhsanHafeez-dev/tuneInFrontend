@@ -44,7 +44,7 @@ export default function ChannelPage() {
 
 
       if (res.ok) {
-        console.log(data.data);
+        console.log("channel profile data ",data.data);
         
         setChannel(data.data);
         setIsSubscribed(data.data.isSubscribed);
