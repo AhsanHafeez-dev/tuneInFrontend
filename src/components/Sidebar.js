@@ -59,7 +59,7 @@ export default function Sidebar() {
             className={`${styles.navItem} ${pathname === link.path ? styles.active : ""
               }`}
           >
-            >
+
             <span className={styles.icon}>{link.icon}</span>
             {!isCollapsed && link.name}
           </Link>
@@ -75,7 +75,7 @@ export default function Sidebar() {
             className={`${styles.navItem} ${pathname === link.path ? styles.active : ""
               }`}
           >
-            >
+
             <span className={styles.icon}>{link.icon}</span>
             {!isCollapsed && link.name}
           </Link>
