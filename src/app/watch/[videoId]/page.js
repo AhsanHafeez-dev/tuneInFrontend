@@ -153,34 +153,12 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
 }
 
 function CommentSection({ comments, videoId, user, onRefresh }) {
-    // Group comments into hierarchy
-    // Assuming backend returns flat list, we build tree here
-    const buildTree = (list) => {
-        const map = {};
-        const roots = [];
-        // Init map
-        list?.forEach((c) => {
-            map[String(c.id)] = { ...c, replies: [] };
-        });
-        // Build tree
-        list?.forEach(c => {
-            const id = String(c.id);
-            const parentId = c.parentComment ? String(c.parentComment) : null;
-
-            if (parentId && map[parentId]) {
-                map[parentId].replies.push(map[id]);
-            } else {
-                roots.push(map[id]);
-            }
-        });
-        return roots;
-    };
-
-    const commentTree = buildTree(comments);
+    // Backend now returns nested replies, so we don't need to build the tree manually.
+    // buildTree was overwriting the 'replies' array.
 
     return (
         <div className={styles.tree}>
-            {commentTree.map(c => (
+            {comments?.map(c => (
                 <CommentItem key={c.id} comment={c} videoId={videoId} user={user} onRefresh={onRefresh} />
             ))}
         </div>
@@ -300,10 +278,9 @@ export default function WatchPage() {
                 `https://tune-in-backend.vercel.app/api/v1/comments/${videoId}?page=1&limit=10`
             );
             const data = await res.json();
-            
 
-            if (res.ok)
-            {
+
+            if (res.ok) {
                 setComments(data.data);
                 console.log("comments response", data.data[0]?.replies);
             }
