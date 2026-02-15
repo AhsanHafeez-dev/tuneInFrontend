@@ -24,7 +24,10 @@ export function AuthProvider({ children }) {
             if (res.ok) {
                 const data = await res.json();
                 console.log("CheckUser: User data fetched:", data.data);
-                setUser(data.data);
+                // Backend returns { data: { user: ... } } or { data: ... }
+                // Based on logs, it returns { user: ... } inside data.data
+                const userData = data.data.user || data.data;
+                setUser(userData);
             } else {
                 console.log("CheckUser: API failed, clearing user");
                 setUser(null);
