@@ -3,11 +3,13 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
+import { useSidebar } from '@/context/SidebarContext';
 import styles from './Navbar.module.css';
 import apiClient from '@/utils/apiClient';
 
 const Navbar = () => {
     const { user, logout } = useAuth();
+    const { toggleSidebar } = useSidebar();
     const router = useRouter();
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState([]);
@@ -46,6 +48,9 @@ const Navbar = () => {
     return (
         <nav className={styles.navbar}>
             <div className={styles.left}>
+                <button onClick={toggleSidebar} className={styles.hamburgerBtn} style={{ background: 'none', border: 'none', color: 'white', fontSize: '1.5rem', cursor: 'pointer', marginRight: '1rem', display: 'flex', alignItems: 'center' }}>
+                    ☰
+                </button>
                 <Link href="/" className={styles.logo}>
                     <img src="/logo.png" alt="TuneIn Logo" className={styles.logoImage} />
                     TUNEIN

@@ -1,9 +1,11 @@
 'use client';
 import { useAuth } from "@/context/AuthContext";
 import Sidebar from "@/components/Sidebar";
+import { useSidebar } from "@/context/SidebarContext";
 
 export default function ClientLayout({ children }) {
     const { user, loading } = useAuth();
+    const { isCollapsed } = useSidebar();
 
     // While loading auth state, maybe show essential layout or nothing specific?
     // We'll just default to no sidebar to avoid flickering.
@@ -23,10 +25,11 @@ export default function ClientLayout({ children }) {
             <Sidebar />
             <main style={{
                 flex: 1,
-                marginLeft: '240px',
-                width: 'calc(100% - 240px)',
+                marginLeft: isCollapsed ? '70px' : '240px',
+                width: isCollapsed ? 'calc(100% - 70px)' : 'calc(100% - 240px)',
                 background: 'transparent',
-                paddingTop: '80px' // Offset for fixed navbar
+                paddingTop: '80px', // Offset for fixed navbar
+                transition: 'all 0.3s ease'
             }}>
                 {children}
             </main>

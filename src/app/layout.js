@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import { AuthProvider } from "@/context/AuthContext";
+import { SidebarProvider } from "@/context/SidebarContext";
 import "./globals.css";
 
 export const metadata = {
@@ -15,10 +16,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <AuthProvider>
-          <Navbar />
-          <ClientLayout>
-            {children}
-          </ClientLayout>
+          <SidebarProvider>
+            <Navbar />
+            <ClientLayout>
+              {children}
+            </ClientLayout>
+          </SidebarProvider>
         </AuthProvider>
       </body>
     </html>
