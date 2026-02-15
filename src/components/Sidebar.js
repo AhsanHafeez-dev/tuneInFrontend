@@ -80,15 +80,15 @@ export default function Sidebar() {
                     {subscriptions.map(sub => (
                         <Link
                             key={sub.channel._id}
-                            href={`/c/${sub.channel.username}`}
+                            href={`/c/${sub.channel?.userName}`}
                             className={styles.channelItem}
                         >
                             <img
                                 src={sub.channel.avatar || 'https://via.placeholder.com/24'}
-                                alt={sub.channel.username}
+                                alt={sub.channel?.userName}
                                 className={styles.channelAvatar}
                             />
-                            <span>{sub.channel.fullName || sub.channel.username}</span>
+                            <span>{sub.channel?.fullName || sub.channel?.userName}</span>
                         </Link>
                     ))}
                     {subscriptions.length === 0 && (
