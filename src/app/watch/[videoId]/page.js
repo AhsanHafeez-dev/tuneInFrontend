@@ -32,7 +32,7 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
                     method: "POST",
                     body: JSON.stringify({
                         content: replyContent,
-                        parentComment: comment.id,
+                        parentComment: comment?.id,
                     }),
 
                 }
@@ -54,7 +54,7 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
         if (!user) return alert("Please login to like");
         try {
             const res = await apiClient(
-                `https://tune-in-backend.vercel.app/api/v1/likes/toggle/c/${comment.id}`,
+                `https://tune-in-backend.vercel.app/api/v1/likes/toggle/c/${comment?.id}`,
                 { method: "POST", }
             );
             if (res.ok) {
@@ -110,7 +110,7 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
                 <div className={styles.nestedReplies}>
                     {comment.replies.map(reply => (
                         <CommentItem
-                            key={reply.id}
+                            key={reply?.id}
                             comment={reply}
                             videoId={videoId}
                             user={user}
@@ -480,9 +480,9 @@ export default function WatchPage() {
                         <div className={styles.queueList}>
                             {playlist.videos.map(v => (
                                 <Link
-                                    href={`/watch/${v.id || v._id}?list=${playlist.id || playlist._id}`}
-                                    key={v.video.id || v._id}
-                                    className={`${styles.queueItem} ${v.video.id === videoId ? styles.queueItemActive : ''}`}
+                                    href={`/watch/${v.id || v?._id}?list=${playlist?.id || playlist?._id}`}
+                                    key={v.video.id || v?._id}
+                                    className={`${styles.queueItem} ${v.video?.id === videoId ? styles.queueItemActive : ''}`}
                                 >
                                     <img src={v.video.thumbnail} alt={v.video.title} className={styles.queueThumb} />
                                     <div className={styles.queueInfo}>
@@ -499,8 +499,8 @@ export default function WatchPage() {
                     <h3>Suggested Videos</h3>
                     {suggestedVideos.map(v => (
                         <Link
-                            href={`/watch/${v.id || v._id}`}
-                            key={v.id || v._id}
+                            href={`/watch/${v?.id || v?._id}`}
+                            key={v?.id || v?._id}
                             className={styles.queueItem}
                         >
                             <div className={styles.queueThumbWrapper}>
