@@ -305,7 +305,7 @@ export default function WatchPage() {
             if (res.ok)
             {
                 setComments(data.data);
-                console.log("comments response", data);
+                console.log("comments response", data[0].replies);
             }
         } catch (error) {
             console.error(error);
