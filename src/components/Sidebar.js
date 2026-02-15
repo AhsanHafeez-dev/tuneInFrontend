@@ -23,7 +23,7 @@ export default function Sidebar() {
         try {
             // Using /api/v1/subscriptions/c/:channelId endpoint which currently maps to getSubscribedChannels
             // and we patched the controller to treat channelId as subscriberId
-            const res = await apiClient(`/api/v1/subscriptions/c/${user.id}`);
+            const res = await apiClient(`/api/v1/subscriptions/c/${user?.id}`);
             if (res.ok) {
                 const data = await res.json();
                 console.log("subscribers : ",data);
@@ -85,8 +85,8 @@ export default function Sidebar() {
             <h3 className={styles.sectionTitle}>Subscriptions</h3>
             {subscriptions.map((sub) => (
               <Link
-                key={sub.subscriber.id}
-                href={`/c/${sub.subscriber?.userName}`}
+                key={sub.channel?.id}
+                href={`/c/${sub.channel?.userName}`}
                 className={styles.channelItem}
               >
                 <img
