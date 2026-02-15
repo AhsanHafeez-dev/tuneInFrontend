@@ -305,7 +305,7 @@ export default function ChannelPage() {
                 playlists.map((playlist) => {
                   console.log("mapping through playlists on c/username",playlist);
                   
-                const firstVideo = playlist.videos && playlist.videos.length > 0 ? playlist.videos[0] : null;
+                const firstVideo = playlist.videos && playlist.videos.length > 0 ? playlist.videos[0]?.video : null;
                 const firstVidId = firstVideo ? (firstVideo.id || firstVideo._id) : null;
                 const playlistId = playlist.id || playlist._id;
 
