@@ -306,7 +306,7 @@ export default function ChannelPage() {
               <p>No playlists created yet.</p>
             ) : (
               playlists.map((playlist) => {
-                const firstVidId = playlist.firstVideo?.id;
+                const firstVidId = playlist?.videos[0]?.id;
                 return (
                   <Link
                     href={
