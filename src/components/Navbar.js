@@ -14,6 +14,8 @@ const Navbar = () => {
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState([]);
 
+    console.log("Navbar: user state:", user);
+
     useEffect(() => {
         const timer = setTimeout(async () => {
             if (query.trim().length > 1) {
