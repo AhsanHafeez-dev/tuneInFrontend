@@ -10,7 +10,7 @@ import apiClient from '@/utils/apiClient';
 // --- Comment Components ---
 
 function CommentItem({ comment, videoId, user, onRefresh }) {
-    console.log("mapping", comment);
+    // console.log("mapping", comment);
 
     const [isReplying, setIsReplying] = useState(false);
     const [replyContent, setReplyContent] = useState('');
@@ -194,7 +194,7 @@ import { useRef } from 'react';
 export default function WatchPage() {
     const { videoId } = useParams();
     const videoRef = useRef(null);
-    console.log("got from params", videoId);
+    // console.log("got from params", videoId);
 
     const searchParams = useSearchParams();
     const playlistId = searchParams.get('list');
@@ -221,11 +221,11 @@ export default function WatchPage() {
             );
 
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
 
 
             if (res.ok) {
-                console.log("video data that i got is ", data.data);
+                // console.log("video data that i got is ", data.data);
 
                 setVideo(data.data);
                 checkSubscription(data.data.owner?.id);
@@ -241,7 +241,7 @@ export default function WatchPage() {
                     }
                 }
 
-                console.log("setting is Liked", data.data);
+                // console.log("setting is Liked", data.data);
 
             }
         } catch (error) {
@@ -253,16 +253,16 @@ export default function WatchPage() {
 
     const fetchSuggestedVideos = async () => {
         try {
-            console.log(`suggesting for videoId ${videoId}`);
+            // console.log(`suggesting for videoId ${videoId}`);
 
             // Fetch random videos or latest
             const res = await apiClient(
                 `https://tune-in-backend.vercel.app/api/v1/videos/suggested/${videoId}`
             );
-            console.log("await finish for suggested video");
+            // console.log("await finish for suggested video");
 
             const data = await res.json();
-            console.log(data.data);
+            // console.log(data.data);
 
             if (res.ok) {
                 // Filter out current video
@@ -270,7 +270,7 @@ export default function WatchPage() {
 
 
                 setSuggestedVideos(others);
-                console.log("suggested vieos", suggestedVideos);
+                // console.log("suggested vieos", suggestedVideos);
 
             }
         } catch (error) {
@@ -300,9 +300,13 @@ export default function WatchPage() {
                 `https://tune-in-backend.vercel.app/api/v1/comments/${videoId}?page=1&limit=10`
             );
             const data = await res.json();
-            console.log("comments response", data);
+            
 
-            if (res.ok) setComments(data.data);
+            if (res.ok)
+            {
+                setComments(data.data);
+                console.log("comments response", data);
+            }
         } catch (error) {
             console.error(error);
         }
