@@ -224,6 +224,8 @@ export default function WatchPage() {
 
     const fetchSuggestedVideos = async () => {
         try {
+            console.log(`suggesting for videoId ${videoId}`);
+            
             // Fetch random videos or latest
             const res = await apiClient(
                 `https://tune-in-backend.vercel.app/api/v1/videos/suggested/${videoId}?page=1&limit=15`
