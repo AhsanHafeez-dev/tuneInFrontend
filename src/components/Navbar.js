@@ -19,7 +19,7 @@ const Navbar = () => {
                     const res = await apiClient(`/api/v1/videos?query=${encodeURIComponent(query)}&limit=5`);
                     const data = await res.json();
                     if (res.ok) {
-                        setSuggestions(data.data.docs || []);
+                        setSuggestions(data.data || []);
                     }
                 } catch (e) {
                     console.error(e);

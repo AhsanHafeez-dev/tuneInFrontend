@@ -36,7 +36,10 @@ export function AuthProvider({ children }) {
     }, []);
 
     const login = (userData, accessToken) => {
+        console.log("auth context setting user ",userData);
+        
         setUser(userData);
+
         if (accessToken) {
             localStorage.setItem("accessToken", accessToken);
         }
