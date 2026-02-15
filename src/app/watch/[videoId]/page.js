@@ -228,9 +228,13 @@ export default function WatchPage() {
             
             // Fetch random videos or latest
             const res = await apiClient(
-                `https://tune-in-backend.vercel.app/api/v1/videos/suggested/${videoId}?page=1&limit=15`
+                `https://tune-in-backend.vercel.app/api/v1/videos/suggested/${videoId}`
             );
+            console.log("await finish for suggested video");
+            
             const data = await res.json();
+            console.log(data.data);
+            
             if (res.ok) {
                 // Filter out current video
                 const others = (data.data || [])
