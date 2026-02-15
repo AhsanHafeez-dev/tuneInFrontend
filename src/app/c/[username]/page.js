@@ -302,7 +302,9 @@ export default function ChannelPage() {
             {playlists.length === 0 ? (
               <p>No playlists created yet.</p>
             ) : (
-              playlists.map((playlist) => {
+                playlists.map((playlist) => {
+                  console.log("mapping through playlists on c/username",playlist);
+                  
                 const firstVideo = playlist.videos && playlist.videos.length > 0 ? playlist.videos[0] : null;
                 const firstVidId = firstVideo ? (firstVideo.id || firstVideo._id) : null;
                 const playlistId = playlist.id || playlist._id;
