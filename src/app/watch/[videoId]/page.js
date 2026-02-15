@@ -28,13 +28,14 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
         e.preventDefault();
         if (!replyContent.trim()) return;
         try {
+            // Updated endpoint for replies: /api/v1/comments/c/:commentId
             const res = await apiClient(
-                `https://tune-in-backend.vercel.app/api/v1/comments/${videoId}`,
+                `https://tune-in-backend.vercel.app/api/v1/comments/c/${comment?.id}`,
                 {
                     method: "POST",
                     body: JSON.stringify({
                         content: replyContent,
-                        parentComment: comment?.id,
+                        // parentComment: comment?.id, // specific endpoint handles parent association
                     }),
                 }
             );
