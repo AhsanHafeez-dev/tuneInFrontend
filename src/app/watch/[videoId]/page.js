@@ -186,8 +186,9 @@ export default function WatchPage() {
 
     const fetchVideo = async () => {
         try {
+            
             const res = await apiClient(
-                `https://tune-in-backend.vercel.app/api/v1/videos/${videoId}`
+                `https://tune-in-backend.vercel.app/api/v1/videos/c/${videoId}`
             );
 
             const data = await res.json();
