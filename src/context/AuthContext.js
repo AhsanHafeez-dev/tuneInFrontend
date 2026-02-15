@@ -9,14 +9,27 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
 
     const checkUser = async () => {
+        const token = localStorage.getItem("accessToken");
+        console.log("CheckUser: Token from storage:", token);
+        if (!token) {
+            setLoading(false);
+            return;
+        }
+
         try {
             // using apiClient here to send token if it exists
             const res = await apiClient('/api/v1/users/current-user');
+            console.log("CheckUser: API Response status:", res.status);
+
             if (res.ok) {
                 const data = await res.json();
+                console.log("CheckUser: User data fetched:", data.data);
                 setUser(data.data);
             } else {
+                console.log("CheckUser: API failed, clearing user");
                 setUser(null);
+                // Optional: clear invalid token
+                // localStorage.removeItem("accessToken"); 
             }
         } catch (error) {
             console.error('Auth check failed', error);
