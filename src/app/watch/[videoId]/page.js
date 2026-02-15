@@ -195,6 +195,8 @@ export default function WatchPage() {
 
 
             if (res.ok) {
+                console.log("video data that i got is ",data.data);
+                
                 setVideo(data.data);
                 checkSubscription(data.data.owner?.id);
                 fetchSuggestedVideos();

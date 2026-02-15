@@ -67,6 +67,8 @@ export default function ChannelPage() {
       );
       const data = await res.json();
       if (res.ok) {
+        
+        
         setVideos(data.data || []);
       }
     } catch (error) {
