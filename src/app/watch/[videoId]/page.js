@@ -17,6 +17,8 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
     const [liked, setLiked] = useState(false);
     // Ideally liked state comes from backend 'comment.isLiked'
 
+    const [showReplies, setShowReplies] = useState(false);
+
     const handleReplyClick = () => {
         if (!user) return alert("Please login to reply");
         setIsReplying(!isReplying);
@@ -34,13 +36,14 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
                         content: replyContent,
                         parentComment: comment?.id,
                     }),
-
                 }
             );
             if (res.ok) {
                 setReplyContent('');
                 setIsReplying(false);
                 onRefresh();
+                // Optionally auto-expand replies
+                setShowReplies(true);
             } else {
                 alert("Failed to post reply");
             }
@@ -66,6 +69,8 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
         }
     };
 
+    const repliesCount = comment.replies?.length || 0;
+
     return (
         <div className={styles.commentItem}>
             <div className={styles.commentHeader}>
@@ -80,8 +85,8 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
             <p className={styles.commentContent}>{comment.content}</p>
 
             <div className={styles.commentActions}>
-                <button type="button" onClick={handleLike} className={`${styles.actionBtn} ${liked ? styles.liked : ''}`}>
-                    👍 Like
+                <button type="button" onClick={handleLike} className={`${styles.actionBtn} ${liked ? styles.liked : ''}`} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    👍 {comment.likesCount || 0}
                 </button>
                 <button type="button" onClick={handleReplyClick} className={styles.actionBtn}>
                     {isReplying ? 'Cancel' : 'Reply'}
@@ -105,18 +110,41 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
                 </form>
             )}
 
-            {/* Render Replies in nested container */}
-            {comment.replies && comment.replies.length > 0 && (
-                <div className={styles.nestedReplies}>
-                    {comment.replies.map(reply => (
-                        <CommentItem
-                            key={reply?.id}
-                            comment={reply}
-                            videoId={videoId}
-                            user={user}
-                            onRefresh={onRefresh}
-                        />
-                    ))}
+            {/* Replies Logic */}
+            {repliesCount > 0 && (
+                <div className={styles.repliesContainer}>
+                    <button
+                        className={styles.viewRepliesBtn}
+                        onClick={() => setShowReplies(!showReplies)}
+                        style={{
+                            color: '#3ea6ff',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            fontSize: '0.9rem',
+                            fontWeight: '500',
+                            marginTop: '8px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px'
+                        }}
+                    >
+                        {showReplies ? '▲' : '▼'} {showReplies ? 'Hide' : `View ${repliesCount}`} replies
+                    </button>
+
+                    {showReplies && (
+                        <div className={styles.nestedReplies} style={{ paddingLeft: '0', marginTop: '10px' }}>
+                            {comment.replies.map(reply => (
+                                <CommentItem
+                                    key={reply?.id}
+                                    comment={reply}
+                                    videoId={videoId}
+                                    user={user}
+                                    onRefresh={onRefresh}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
             )}
         </div>
@@ -225,21 +253,21 @@ export default function WatchPage() {
     const fetchSuggestedVideos = async () => {
         try {
             console.log(`suggesting for videoId ${videoId}`);
-            
+
             // Fetch random videos or latest
             const res = await apiClient(
                 `https://tune-in-backend.vercel.app/api/v1/videos/suggested/${videoId}`
             );
             console.log("await finish for suggested video");
-            
+
             const data = await res.json();
             console.log(data.data);
-            
+
             if (res.ok) {
                 // Filter out current video
                 const others = (data.data || [])
-                
-                
+
+
                 setSuggestedVideos(others);
                 console.log("suggested vieos", suggestedVideos);
 

@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 4%;
+    padding: 0 24px; /* Reduced from 4% to move icon closer to edge */
     /* Cinematic padding */
     height: 68px;
     position: fixed;
@@ -21,7 +21,7 @@
 .right {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 24px; /* Explicit gap between icon and logo */
     flex: 1;
 }
 
