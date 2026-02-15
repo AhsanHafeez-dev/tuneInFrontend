@@ -251,8 +251,6 @@ export default function WatchPage() {
             );
             const data = await res.json();
             if (res.ok) {
-                console.log("got play list data in watch/videoId",data.data);
-                
                 setPlaylist(data.data);
             }
         } catch (error) {
@@ -482,8 +480,8 @@ export default function WatchPage() {
                         <div className={styles.queueList}>
                             {playlist.videos.map(v => (
                                 <Link
-                                    href={`/watch/${v.id || v?._id}?list=${playlist?.id || playlist?._id}`}
-                                    key={v.video.id || v?._id}
+                                    href={`/watch/${v.video?.id || v?._id}?list=${playlist?.id || playlist?._id}`}
+                                    key={v.video?.id || v?._id}
                                     className={`${styles.queueItem} ${v.video?.id === videoId ? styles.queueItemActive : ''}`}
                                 >
                                     <img src={v.video.thumbnail} alt={v.video.title} className={styles.queueThumb} />
