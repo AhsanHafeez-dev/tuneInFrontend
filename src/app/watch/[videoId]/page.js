@@ -232,6 +232,8 @@ export default function WatchPage() {
             if (res.ok) {
                 // Filter out current video
                 const others = (data.data || [])
+                
+                
                 setSuggestedVideos(others);
                 console.log("suggested vieos", suggestedVideos);
 
@@ -479,13 +481,13 @@ export default function WatchPage() {
                             {playlist.videos.map(v => (
                                 <Link
                                     href={`/watch/${v.id || v._id}?list=${playlist.id || playlist._id}`}
-                                    key={v.id || v._id}
-                                    className={`${styles.queueItem} ${v.id === videoId ? styles.queueItemActive : ''}`}
+                                    key={v.video.id || v._id}
+                                    className={`${styles.queueItem} ${v.video.id === videoId ? styles.queueItemActive : ''}`}
                                 >
-                                    <img src={v.thumbnail} alt={v.title} className={styles.queueThumb} />
+                                    <img src={v.video.thumbnail} alt={v.video.title} className={styles.queueThumb} />
                                     <div className={styles.queueInfo}>
-                                        <h4 className={styles.queueTitle}>{v.title}</h4>
-                                        <span className={styles.queueChannel}>{v.owner?.fullName}</span>
+                                        <h4 className={styles.queueTitle}>{v.video.title}</h4>
+                                        <span className={styles.queueChannel}>{v.video.owner?.fullName}</span>
                                     </div>
                                 </Link>
                             ))}
