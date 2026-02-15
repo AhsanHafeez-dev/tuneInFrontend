@@ -22,7 +22,7 @@ export default function LoginPage() {
       const data = await res.json();
       if (res.ok) {
         console.log();
-        
+
         login(data.data.user, data.data.accesssToken);
         localStorage.setItem("accessToken", data.data.accesssToken);
         router.push("/");
