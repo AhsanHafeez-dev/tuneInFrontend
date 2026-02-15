@@ -157,7 +157,7 @@ export default function DashboardPage() {
                 </div>
                 <div className={styles.statCard}>
                     <h3>Subscribers</h3>
-                    <p>{stats.totalSubscribers || 0}</p>
+                    <p>{stats.subscribers || 0}</p>
                 </div>
                 <div className={styles.statCard}>
                     <h3>Total Videos</h3>
