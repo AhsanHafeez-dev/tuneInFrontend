@@ -48,7 +48,7 @@ export default function ChannelPage() {
         
         setChannel(data.data);
         setIsSubscribed(data.data.isSubscribed);
-        fetchChannelVideos(data.data.id);
+        fetchChannelVideosOwn(data.data?.id)
         fetchChannelPlaylists(data.data.id);
       }
     } catch (error) {
@@ -74,6 +74,27 @@ export default function ChannelPage() {
     }
   };
 
+
+
+
+  const fetchChannelVideosOwn = async (userId) => {
+    try {
+      console.log(`fetching videos for id ${userId}`);
+
+      const res = await apiClient(
+        `/api/v1/videos?${userId}`,
+        {}
+      );
+      const data = await res.json();
+      if (res.ok) {
+        console.log("videos of channel own ",data.data);
+        
+        setVideos(data.data || []);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const fetchChannelPlaylists = async (userId) => {
     try {
       const res = await apiClient(`/api/v1/playlist/user/${userId}`, {});
