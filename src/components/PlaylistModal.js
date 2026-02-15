@@ -19,7 +19,7 @@ export default function PlaylistModal({ videoId, onClose }) {
             const userRes = await apiClient('/api/v1/users/current-user');
             if (!userRes.ok) throw new Error('Not logged in');
             const userData = await userRes.json();
-            const userId = userData.id;
+            const userId = userData.data.user.id;
             console.log("user data",userData);
             
 
