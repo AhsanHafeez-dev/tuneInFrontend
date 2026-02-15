@@ -64,7 +64,7 @@ function HomeContent() {
               <span className={styles.duration}>{Math.floor(video.duration)}s</span>
             </Link>
             <div className={styles.info}>
-              <Link href={`/c/${video.owner.username}`} className={styles.avatar}>
+              <Link href={`/c/${video.owner?.userName}`} className={styles.avatar}>
                 {video.owner.avatar ? (
                   <img src={video.owner.avatar} alt={video.owner.fullName} className={styles.avatarImage} />
                 ) : (
@@ -77,8 +77,8 @@ function HomeContent() {
                     {video.title}
                   </Link>
                 </h3>
-                <Link href={`/c/${video.owner.username}`} className={styles.channelName}>
-                  {video.owner.fullName || video.owner.username}
+                <Link href={`/c/${video.owner?.userName}`} className={styles.channelName}>
+                  {video.owner?.fullName || video.owner?.userName}
                 </Link>
                 <div className={styles.meta}>
                   <span>{video.views} views</span>

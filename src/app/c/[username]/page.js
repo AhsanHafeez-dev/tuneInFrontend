@@ -104,11 +104,11 @@ export default function ChannelPage() {
       });
       const data = await res.json();
       if (res.ok) {
-        setIsSubscribed(data.data.subscribed);
+        setIsSubscribed(data.data?.subscribed);
         if (data.data.subscribed) {
           setChannel((prev) => ({
             ...prev,
-            subscribersCount: (prev.subscribersCount || 0) + 1,
+            subscribersCount: (prev?.subscribersCount || 0) + 1,
           }));
         } else {
           setChannel((prev) => ({
@@ -194,7 +194,7 @@ export default function ChannelPage() {
         </div>
         <div className={styles.channelInfo}>
           <h1>{channel.fullName}</h1>
-          <span className={styles.handle}>@{channel?.username}</span>
+          <span className={styles.handle}>@{channel?.userName}</span>
           <div className={styles.stats}>
             <span>{channel.subscribersCount} subscribers</span>
             <span>•</span>
