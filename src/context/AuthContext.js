@@ -10,16 +10,29 @@ export function AuthProvider({ children }) {
 
     const checkUser = async () => {
         try {
+            const token = localStorage.getItem("accessToken");
+            console.log("AuthContext: Checking user with token:", token);
+            if (!token) {
+                setLoading(false);
+                return;
+            }
+
             // using apiClient here to send token if it exists
             const res = await apiClient('/api/v1/users/current-user');
+            console.log("AuthContext: checkUser response status:", res.status);
+
             if (res.ok) {
                 const data = await res.json();
+                console.log("AuthContext: User data fetched:", data.data);
                 setUser(data.data);
             } else {
+                console.log("AuthContext: Fetch failed, clearing user");
                 setUser(null);
+                // Optional: clear invalid token
+                // localStorage.removeItem("accessToken"); 
             }
         } catch (error) {
-            console.error('Auth check failed', error);
+            console.error('AuthContext: Auth check failed', error);
             setUser(null);
         } finally {
             setLoading(false);
@@ -27,17 +40,12 @@ export function AuthProvider({ children }) {
     };
 
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
-        if (token) {
-            checkUser();
-        } else {
-            setLoading(false);
-        }
+        checkUser();
     }, []);
 
     const login = (userData, accessToken) => {
-        console.log("auth context setting user ",userData);
-        
+        console.log("auth context setting user ", userData);
+
         setUser(userData);
 
         if (accessToken) {
