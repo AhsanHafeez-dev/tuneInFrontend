@@ -399,12 +399,12 @@ export default function WatchPage() {
                     <div className={styles.actions}>
                         <Link href={`/c/${video.owner?.userName}`} className={styles.channel}>
                             {video.owner?.avatar ? (
-                                <img src={video.owner?.avatar} alt={video.owner.fullName} className={styles.avatarPlaceholder} style={{ objectFit: 'cover' }} />
+                                <img src={video.owner?.avatar} alt={video.owner?.fullName} className={styles.avatarPlaceholder} style={{ objectFit: 'cover' }} />
                             ) : (
-                                <div className={styles.avatarPlaceholder}>{video.owner.fullName?.[0]}</div>
+                                <div className={styles.avatarPlaceholder}>{video.owner?.fullName?.[0]}</div>
                             )}
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <span>{video.owner.fullName}</span>
+                                <span>{video.owner?.fullName}</span>
                                 <span style={{ fontSize: '0.8rem', color: 'gray' }}>{video.owner.subscribersCount || 0} subscribers</span>
                             </div>
                         </Link>
