@@ -44,6 +44,8 @@ export default function ChannelPage() {
 
 
       if (res.ok) {
+        console.log(data.data);
+        
         setChannel(data.data);
         setIsSubscribed(data.data.isSubscribed);
         fetchChannelVideos(data.data.id);
@@ -196,9 +198,9 @@ export default function ChannelPage() {
           <h1>{channel.fullName}</h1>
           <span className={styles.handle}>@{channel?.userName}</span>
           <div className={styles.stats}>
-            <span>{channel.subscribersCount} subscribers</span>
+            <span>{channel.subscribers} subscribers</span>
             <span>•</span>
-            <span>{channel.channelsSubscribedToCount} subscribed</span>
+            <span>{channel.subscribedChannels} subscribed</span>
           </div>
         </div>
         <div className={styles.subscribeWrapper}>
@@ -218,22 +220,25 @@ export default function ChannelPage() {
 
       <div className={styles.tabs}>
         <button
-          className={`${styles.tab} ${activeTab === "videos" ? styles.activeTab : ""
-            }`}
+          className={`${styles.tab} ${
+            activeTab === "videos" ? styles.activeTab : ""
+          }`}
           onClick={() => setActiveTab("videos")}
         >
           Videos
         </button>
         <button
-          className={`${styles.tab} ${activeTab === "playlists" ? styles.activeTab : ""
-            }`}
+          className={`${styles.tab} ${
+            activeTab === "playlists" ? styles.activeTab : ""
+          }`}
           onClick={() => setActiveTab("playlists")}
         >
           Playlists
         </button>
         <button
-          className={`${styles.tab} ${activeTab === "tweets" ? styles.activeTab : ""
-            }`}
+          className={`${styles.tab} ${
+            activeTab === "tweets" ? styles.activeTab : ""
+          }`}
           onClick={() => setActiveTab("tweets")}
         >
           Tweets
