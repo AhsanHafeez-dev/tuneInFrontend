@@ -90,7 +90,7 @@ export default function Sidebar() {
                 className={styles.channelItem}
               >
                 <img
-                  src={sub.channel.avatar || "https://via.placeholder.com/24"}
+                  src={sub.channel?.avatar || "https://via.placeholder.com/24"}
                   alt={sub.channel?.userName}
                   className={styles.channelAvatar}
                 />
