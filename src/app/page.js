@@ -81,7 +81,7 @@ function HomeContent() {
                   </Link>
                 </h3>
                 <Link href={`/c/${video.owner?.userName}`} className={styles.channelName}>
-                  {video.owner?.fullName || video.owner?.userName}
+                  {video.owner?.userName || video.owner?.fullName}
                 </Link>
                 <div className={styles.meta}>
                   <span>{video.views} views</span>
