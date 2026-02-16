@@ -40,6 +40,11 @@ export default function LoginPage() {
     }
   };
 
+  // Prevent flash of content if logged in
+  if (loading || user) {
+    return <div className="loading"></div>; // or return null
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.card}>

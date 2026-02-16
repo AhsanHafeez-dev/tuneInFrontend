@@ -53,6 +53,11 @@ export default function RegisterPage() {
     }
   };
 
+  // Prevent flash of content if logged in
+  if (authLoading || user) {
+    return <div className="loading"></div>;
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.card}>
