@@ -5,6 +5,21 @@ import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import apiClient from '@/utils/apiClient';
 
+const formatTime = (durationInSeconds) => {
+  if (!durationInSeconds) return "0:00";
+
+  const h = Math.floor(durationInSeconds / 3600);
+  const m = Math.floor((durationInSeconds % 3600) / 60);
+  const s = Math.floor(durationInSeconds % 60);
+
+  // Pad minutes with '0' only if we are showing hours
+  const mString = h > 0 ? m.toString().padStart(2, "0") : m.toString();
+  // Always pad seconds
+  const sString = s.toString().padStart(2, "0");
+
+  return h > 0 ? `${h}:${mString}:${sString}` : `${mString}:${sString}`;
+};
+
 function HomeContent() {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -62,9 +77,7 @@ function HomeContent() {
             <Link href={`/watch/${video._id || video.id}`} className={styles.thumbnailWrapper}>
               <img src={video.thumbnail} alt={video.title} className={styles.thumbnail} />
               <span className={styles.duration}>{
-                Math.floor(video.duration / (60 * 60)) > 0 
-                ? `${Math.floor(video.duration / (60 * 60))}:${Math.floor((video.duration % (60 * 60)) / 60)}:${Math.floor(video.duration % 60)}`
-                  : `${Math.floor((video.duration % (60 * 60)) / 60)}:${Math.floor(video.duration % 60)}`
+                formatTime(video.duration)
               }
               </span>
             </Link>

@@ -7,6 +7,21 @@ import styles from './page.module.css';
 import PlaylistModal from '@/components/PlaylistModal';
 import apiClient from '@/utils/apiClient';
 
+const formatTime = (durationInSeconds) => {
+  if (!durationInSeconds) return "0:00";
+
+  const h = Math.floor(durationInSeconds / 3600);
+  const m = Math.floor((durationInSeconds % 3600) / 60);
+  const s = Math.floor(durationInSeconds % 60);
+
+  // Pad minutes with '0' only if we are showing hours
+  const mString = h > 0 ? m.toString().padStart(2, "0") : m.toString();
+  // Always pad seconds
+  const sString = s.toString().padStart(2, "0");
+
+  return h > 0 ? `${h}:${mString}:${sString}` : `${mString}:${sString}`;
+};
+
 // --- Comment Components moved to @/components/comments/CommentSection ---
 import CommentSection from '@/components/comments/CommentSection';
 
@@ -370,7 +385,7 @@ export default function WatchPage() {
                                 <img src={v.thumbnail} alt={v.title} className={styles.queueThumb} />
                                 <span className={styles.suggestedDuration}>
                                     {
-                                        Math.floor(v.duration / (60 * 60))>0?`${Math.floor(v.duration / (60 * 60))}:${Math.floor((v.duration % (60 * 60)) / 60)}:${Math.floor(v.duration % 60)}`:`${Math.floor((v.duration % (60 * 60)) / 60)}:${Math.floor(v.duration % 60)}`
+                                        formatTime(v.duration)
                                     }
                                 </span>
                             </div>
