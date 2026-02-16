@@ -139,6 +139,16 @@
 
 @media (max-width: 500px) {
     .card {
-        padding: 2rem;
+        padding: 2rem 1.5rem;
+        max-width: 100%;
+        margin: 1rem;
+    }
+
+    .card h1 {
+        font-size: 1.75rem;
+    }
+
+    .card p {
+        margin-bottom: 1.5rem;
     }
 }
