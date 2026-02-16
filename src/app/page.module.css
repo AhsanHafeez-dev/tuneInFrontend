@@ -24,8 +24,8 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(77deg,
-      rgba(0, 0, 0, .8) 0,
-      rgba(0, 0, 0, .3) 40%,
+      hsl(var(--background) / 0.8) 0,
+      hsl(var(--background) / 0.3) 40%,
       transparent 85%);
   z-index: 0;
   display: flex;
@@ -49,10 +49,11 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  color: hsl(var(--foreground));
 }
 
 .heroDescription {
-  color: #fff;
+  color: hsl(var(--foreground) / 0.9);
   font-size: 1.2rem;
   font-weight: 400;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
@@ -85,7 +86,7 @@
 }
 
 .playBtn {
-  background: var(--primary);
+  background: hsl(var(--primary));
   color: white;
 }
 
@@ -95,12 +96,12 @@
 }
 
 .infoBtn {
-  background: rgba(109, 109, 110, 0.7);
-  color: white;
+  background: hsl(var(--secondary) / 0.7);
+  color: hsl(var(--foreground));
 }
 
 .infoBtn:hover {
-  background: rgba(109, 109, 110, 0.4);
+  background: hsl(var(--secondary) / 0.4);
 }
 
 /* Grid adjustment */
@@ -108,22 +109,20 @@
   position: relative;
   z-index: 10;
   padding: 2rem 4%;
-  background: linear-gradient(to bottom, transparent, #141414 100px);
+  background: linear-gradient(to bottom, transparent, hsl(var(--background)) 100px);
 }
 
 .sectionTitle {
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #e5e5e5;
+  color: hsl(var(--foreground));
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  /* Smaller min-width for more items */
   gap: 1.5rem;
-  /* Balanced gap */
   padding: 2rem;
   min-height: 100vh;
 }
@@ -144,13 +143,12 @@
 .card {
   background: transparent;
   border-radius: 0;
-  /* overflow: visible; Let content flow */
   cursor: pointer;
   transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.3s ease;
   animation: fadeInUp 0.6s ease-out backwards;
 }
 
-/* Stagger generic simulation via nth-child for first few items for a nice effect without JS index */
+/* Stagger generic simulation via nth-child */
 .card:nth-child(1) {
   animation-delay: 0.05s;
 }
@@ -182,24 +180,21 @@
 /* Refined Hover Scale */
 .card:hover {
   transform: scale(1.05) translateY(-5px);
-  /* Lift up slightly */
   z-index: 20;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
-  background: #181818;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  background: hsl(var(--card));
   border-radius: 6px;
 }
 
 .thumbnailWrapper {
   display: block;
-  /* Fix for anchor tag being inline */
   width: 100%;
   aspect-ratio: 16/9;
   position: relative;
   border-radius: 4px;
   overflow: hidden;
   transition: border-radius 0.3s ease;
-  background: #000;
-  /* Fallback for transparency */
+  background: hsl(var(--secondary));
 }
 
 .card:hover .thumbnailWrapper {
@@ -212,18 +207,17 @@
   object-fit: cover;
   transition: filter 0.3s ease;
   display: block;
-  /* Remove inline gap */
 }
 
 .card:hover .thumbnail {
-  filter: brightness(1.15) contrast(1.1);
+  filter: brightness(1.1);
 }
 
 .duration {
   position: absolute;
   bottom: 8px;
   right: 8px;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.8);
   color: white;
   padding: 3px 6px;
   border-radius: 2px;
@@ -235,7 +229,6 @@
 
 .card:hover .duration {
   opacity: 0;
-  /* Hide duration on hover for cleaner look like Netflix preview */
 }
 
 /* ... existing info styles ... */
@@ -243,7 +236,7 @@
   padding: 12px 0 0 0;
   display: flex;
   gap: 12px;
-  opacity: 0.8;
+  opacity: 0.9;
   transition: opacity 0.2s;
 }
 
@@ -262,7 +255,6 @@
 
 .card:hover .avatar {
   border-color: transparent;
-  /* Remove border override */
   transform: scale(1.1);
 }
 
@@ -273,10 +265,10 @@
 }
 
 .title {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1.4;
-  color: #f1f1f1;
+  color: hsl(var(--foreground));
   margin-bottom: 4px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -286,12 +278,12 @@
 }
 
 .card:hover .title {
-  color: #fff;
+  color: hsl(var(--foreground));
 }
 
 .channelName {
-  font-size: 14px;
-  color: #aaa;
+  font-size: 0.85rem;
+  color: hsl(var(--muted-foreground));
   text-decoration: none;
   line-height: 1.2;
   position: relative;
@@ -307,13 +299,13 @@
   height: 1px;
   bottom: -2px;
   left: 0;
-  background-color: #aaa;
+  background-color: hsl(var(--muted-foreground));
   transform-origin: bottom right;
   transition: transform 0.25s ease-out;
 }
 
 .channelName:hover {
-  color: #ccc;
+  color: hsl(var(--foreground));
 }
 
 .channelName:hover::after {
@@ -322,8 +314,8 @@
 }
 
 .meta {
-  font-size: 14px;
-  color: #aaa;
+  font-size: 0.85rem;
+  color: hsl(var(--muted-foreground));
   display: flex;
   align-items: center;
 }
@@ -338,9 +330,8 @@
 .avatarPlaceholder {
   width: 100%;
   height: 100%;
-  background: #555;
-  /* Lighter grey for better visibility */
-  color: #fff;
+  background: hsl(var(--secondary));
+  color: hsl(var(--foreground));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -356,12 +347,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #aaa;
+  color: hsl(var(--muted-foreground));
   width: 100%;
   grid-column: 1 / -1;
 }
 
 .emptyState h2 {
-  color: #fff;
+  color: hsl(var(--foreground));
   margin-bottom: 16px;
 }
