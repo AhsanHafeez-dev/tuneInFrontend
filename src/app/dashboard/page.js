@@ -75,31 +75,66 @@ export default function DashboardPage() {
     const handleUpload = async (e) => {
         e.preventDefault();
         setUploading(true);
-        const formData = new FormData();
-        formData.append('title', uploadData.title);
-        formData.append('description', uploadData.description);
-        formData.append('videoFile', videoFile);
-        formData.append('thumbnail', thumbnail);
-
+        // Direct Upload Strategy
         try {
+            // 1. Get Signature
+            const sigRes = await apiClient('/api/v1/videos/signature');
+            if (!sigRes.ok) throw new Error('Failed to get upload signature');
+            const { signature, timestamp, api_key, cloud_name } = (await sigRes.json()).data;
+
+            const uploadToCloudinary = async (file, resourceType = 'auto') => {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('api_key', api_key);
+                formData.append('timestamp', timestamp);
+                formData.append('signature', signature);
+                formData.append('resource_type', resourceType);
+
+                const response = await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/${resourceType}/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error('Cloudinary upload failed');
+                return await response.json();
+            };
+
+            // 2. Upload Files Directly
+            // Separate uploads for parallel execution
+            const [videoUpload, thumbUpload] = await Promise.all([
+                uploadToCloudinary(videoFile, 'video'),
+                uploadToCloudinary(thumbnail, 'image')
+            ]);
+
+            // 3. Send Metadata to Backend
+            const backendData = {
+                title: uploadData.title,
+                description: uploadData.description,
+                videoUrl: videoUpload.secure_url,
+                thumbnailUrl: thumbUpload.secure_url,
+                videoPublicId: videoUpload.public_id,
+                thumbnailPublicId: thumbUpload.public_id,
+                duration: videoUpload.duration
+            };
+
             const res = await apiClient('/api/v1/videos', {
                 method: 'POST',
-                body: formData
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(backendData)
             });
+
             if (res.ok) {
                 const data = await res.json();
                 setShowUpload(false);
                 alert('Video uploaded successfully!');
-                // Open playlist modal for the new video
                 openAddToPlaylist(data.data.id);
-                // Refresh stats and videos (simplified reloading)
                 window.location.reload();
             } else {
                 alert('Upload failed');
             }
         } catch (error) {
             console.error(error);
-            alert('Error uploading');
+            alert('Error uploading: ' + error.message);
         } finally {
             setUploading(false);
         }
