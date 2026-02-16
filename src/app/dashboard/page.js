@@ -5,6 +5,7 @@ import styles from './page.module.css';
 import apiClient from '@/utils/apiClient';
 
 import Loader from '@/components/Loader';
+import PlaylistModal from '@/components/PlaylistModal';
 
 export default function DashboardPage() {
     const { user, loading: authLoading } = useAuth(); // rename loading to avoid conflict if needed, or just useAuth loading
@@ -13,7 +14,18 @@ export default function DashboardPage() {
     const [showUpload, setShowUpload] = useState(false);
     const [loadingData, setLoadingData] = useState(true);
 
-    // ... (rest of state)
+    // Playlist Modal State
+    const [showPlaylistModal, setShowPlaylistModal] = useState(false);
+    const [selectedVideoId, setSelectedVideoId] = useState(null);
+
+    // Upload state
+    const [uploadData, setUploadData] = useState({ title: '', description: '' });
+    const [videoFile, setVideoFile] = useState(null);
+    const [thumbnail, setThumbnail] = useState(null);
+    const [uploading, setUploading] = useState(false);
+
+    const [showCoverModal, setShowCoverModal] = useState(false);
+    const [coverFile, setCoverFile] = useState(null);
 
     useEffect(() => {
         if (!user) return; // Wait for user
@@ -34,22 +46,108 @@ export default function DashboardPage() {
         fetchDashboardData();
     }, [user]);
 
-    // ... (rest of handlers)
+    const handleUpdateCover = async (e) => {
+        e.preventDefault();
+        setUploading(true);
+        const formData = new FormData();
+        formData.append('coverImage', coverFile);
+
+        try {
+            const res = await apiClient('/api/v1/users/cover-image', {
+                method: 'PATCH',
+                body: formData
+            });
+            if (res.ok) {
+                setShowCoverModal(false);
+                alert('Cover image updated successfully!');
+                window.location.reload();
+            } else {
+                alert('Update failed');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Error updating cover image');
+        } finally {
+            setUploading(false);
+        }
+    }
+
+    const handleUpload = async (e) => {
+        e.preventDefault();
+        setUploading(true);
+        const formData = new FormData();
+        formData.append('title', uploadData.title);
+        formData.append('description', uploadData.description);
+        formData.append('videoFile', videoFile);
+        formData.append('thumbnail', thumbnail);
+
+        try {
+            const res = await apiClient('/api/v1/videos', {
+                method: 'POST',
+                body: formData
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setShowUpload(false);
+                alert('Video uploaded successfully!');
+                // Open playlist modal for the new video
+                openAddToPlaylist(data.data.id);
+                // Refresh stats and videos (simplified reloading)
+                window.location.reload();
+            } else {
+                alert('Upload failed');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Error uploading');
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    const handleDeleteVideo = async (videoId) => {
+        if (!confirm("Are you sure you want to delete this video?")) return;
+        try {
+            const res = await apiClient(`/api/v1/videos/${videoId}`, { method: 'DELETE' });
+            if (res.ok) {
+                setVideos(videos.filter(v => v.id !== videoId));
+                setStats(prev => ({ ...prev, totalVideos: prev.totalVideos - 1 }));
+            } else {
+                alert("Failed to delete video");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleTogglePublish = async (videoId) => {
+        try {
+            const res = await apiClient(`/api/v1/videos/toggle/publish/${videoId}`, { method: 'PATCH' });
+            const data = await res.json();
+            if (res.ok) {
+                setVideos(videos.map(v => v.id === videoId ? { ...v, isPublished: data.data.isPublished } : v));
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const openPlaylistManager = () => {
+        setSelectedVideoId(null);
+        setShowPlaylistModal(true);
+    };
+
+    const openAddToPlaylist = (vidId) => {
+        setSelectedVideoId(vidId);
+        setShowPlaylistModal(true);
+    };
+
 
     if (authLoading || (user && loadingData)) return <Loader size="lg" />;
     if (!user) return <div className="loading">Please login to view dashboard</div>;
 
     return (
         <div className={styles.container}>
-            {/* ... header ... */}
-
-            {/* Use overlay loader for uploading actions if desired, or keep button disabled state. 
-                 User asked for "loading" to have loader. The initial load is covered above. 
-                 Let's check if there are other loading states. 
-                 Inside Upload Modal, if uploading, maybe show loader? 
-                 Currently buttons say "Uploading...". I'll keep that for buttons as it's standard.
-                 But the main page load should definitely use Loader.
-             */}
             <div className={styles.header}>
                 <h1>Channel Dashboard</h1>
                 <div style={{ display: 'flex', gap: '1rem' }}>
@@ -60,7 +158,6 @@ export default function DashboardPage() {
             </div>
 
             <div className={styles.statsGrid}>
-                {/* ... stats ... */}
                 <div className={styles.statCard}>
                     <h3>Total Views</h3>
                     <p>{stats.totalViews || 0}</p>
@@ -85,11 +182,8 @@ export default function DashboardPage() {
                     <p style={{ color: 'gray' }}>No videos uploaded yet.</p>
                 ) : (
                     videos.map(video => (
-                        /* ... video item ... */
                         <div key={video.id} className={styles.videoItem}>
-                            {/* ... content ... */}
                             <img src={video.thumbnail} alt={video.title} className={styles.videoThumb} />
-                            {/* ... */}
                             <div className={styles.videoInfo}>
                                 <h4>{video.title}</h4>
                                 <div className={styles.metaRow}>
@@ -129,7 +223,6 @@ export default function DashboardPage() {
 
             {showUpload && (
                 <div className={styles.modalOverlay}>
-                    {/* ... Upload Modal ... */}
                     <div className={styles.modal}>
                         {uploading ? (
                             <div style={{ textAlign: 'center', padding: '2rem' }}>
@@ -140,7 +233,6 @@ export default function DashboardPage() {
                             <>
                                 <h2>Upload new video</h2>
                                 <form onSubmit={handleUpload} className={styles.uploadForm}>
-                                    {/* ... inputs ... */}
                                     <input
                                         type="text"
                                         placeholder="Title"
