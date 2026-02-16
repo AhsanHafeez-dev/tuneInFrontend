@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import apiClient from '@/utils/apiClient';
 import styles from './TweetSection.module.css';
 import { useAuth } from '@/context/AuthContext';
+import TweetItem from './TweetItem';
 
 export default function TweetSection({ userId, isOwner, avatar, fullName }) {
     const { user } = useAuth();
@@ -190,69 +191,15 @@ export default function TweetSection({ userId, isOwner, avatar, fullName }) {
                     <p style={{ textAlign: 'center', color: 'gray' }}>No tweets yet</p>
                 ) : (
                     tweets.map(tweet => (
-                        <div key={tweet._id || tweet.id} className={styles.tweetCard}>
-                            <div className={styles.tweetHeader}>
-                                <img
-                                    src={tweet.owner?.avatar || avatar || "https://via.placeholder.com/40"}
-                                    alt="avatar"
-                                    className={styles.avatar}
-                                />
-                                <div className={styles.tweetMeta}>
-                                    <span className={styles.userName}>{tweet.owner?.fullName || fullName || "User"}</span>
-                                    <span className={styles.tweetDate}>{new Date(tweet.createdAt).toLocaleDateString()}</span>
-                                </div>
-                                {isOwner && (
-                                    <button onClick={() => handleDelete(tweet._id || tweet.id)} className={styles.menuBtn} title="Delete">
-                                        🗑️
-                                    </button>
-                                )}
-                            </div>
-
-                            {editingId === (tweet._id || tweet.id) ? (
-                                <div className={styles.editForm}>
-                                    <textarea
-                                        className={styles.tweetInput}
-                                        value={editContent}
-                                        onChange={(e) => setEditContent(e.target.value)}
-                                    />
-                                    <div style={{ marginTop: '10px' }}>
-                                        <button onClick={() => handleUpdate(tweet._id || tweet.id)} className={styles.saveBtn}>Save</button>
-                                        <button onClick={() => setEditingId(null)} className={styles.cancelBtn}>Cancel</button>
-                                    </div>
-                                </div>
-                            ) : (
-                                <>
-                                    <p className={styles.tweetContent}>{tweet.content}</p>
-                                    {/* Display Images if any - structure depends on backend. Assuming 'images' array of strings/objects */}
-                                    {/* User said: "upto 10 image with name media". Backend likely returns an array of image URLs/Objects in 'images' or 'media' ??
-                                       Usually Cloudinary returns URLs. Let's assume 'images' field exists or 'media' ?? 
-                                       I'll guess 'images' based on common patterns or check the response later. 
-                                       For now I'll check 'tweet.images' */}
-                                    {tweet.multimedia && tweet.multimedia.length > 0 && (
-                                        <div className={styles.tweetImages}>
-                                            {tweet.multimedia.map((media, i) => (
-                                                <img key={i} src={media.url} alt="tweet media" className={styles.tweetImage} />
-                                            ))}
-                                        </div>
-                                    )}
-
-                                    <div className={styles.tweetActions}>
-                                        <button
-                                            onClick={() => handleLike(tweet._id || tweet.id)}
-                                            className={styles.actionBtn}
-                                            style={{ color: tweet.isLiked ? 'var(--primary)' : '' }}
-                                        >
-                                            👍 {tweet.likesCount || 0}
-                                        </button>
-                                        {isOwner && (
-                                            <button onClick={() => handleEdit(tweet)} className={styles.actionBtn}>
-                                                ✏️ Edit
-                                            </button>
-                                        )}
-                                    </div>
-                                </>
-                            )}
-                        </div>
+                        <TweetItem
+                            key={tweet._id || tweet.id}
+                            tweet={tweet}
+                            isOwner={isOwner}
+                            avatar={avatar}
+                            fullName={fullName}
+                            onDelete={handleDelete}
+                            onUpdate={handleUpdate}
+                        />
                     ))
                 )}
             </div>
