@@ -3,6 +3,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import apiClient from '@/utils/apiClient';
 import Link from 'next/link';
+import Loader from '@/components/Loader';
 
 function SearchResults() {
     const searchParams = useSearchParams();
