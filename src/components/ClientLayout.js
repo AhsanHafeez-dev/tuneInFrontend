@@ -26,15 +26,17 @@ export default function ClientLayout({ children }) {
 
     // Authenticated layout: Sidebar + Content
     return (
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', minHeight: '100vh' }}>
             <Sidebar />
             <main style={{
                 flex: 1,
-                marginLeft: isCollapsed ? '70px' : '240px',
-                width: isCollapsed ? 'calc(100% - 70px)' : 'calc(100% - 240px)',
+                marginLeft: isCollapsed ? '80px' : '250px', // Match Sidebar width
+                width: isCollapsed ? 'calc(100% - 80px)' : 'calc(100% - 250px)',
                 background: 'transparent',
-                paddingTop: '80px', // Offset for fixed navbar
-                transition: 'all 0.3s ease'
+                paddingTop: '90px', // Increased offset for header
+                paddingLeft: '2rem', // Added breathing room
+                paddingRight: '2rem',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
             }}>
                 {children}
             </main>
