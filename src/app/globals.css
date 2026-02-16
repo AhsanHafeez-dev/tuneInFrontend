@@ -277,45 +277,7 @@ textarea::placeholder {
 }
 
 
-:root {
-  /* Netflix-inspired Palette */
-  --background: 0 0% 8%;
-  /* #141414 - Deep Black */
-  --foreground: 0 0% 98%;
-  /* #FAFAFA - White */
-
-  --card: 0 0% 8%;
-  /* Matching background */
-  --card-foreground: 0 0% 98%;
-
-  --primary: 357 92% 47%;
-  /* #E50914 - Netflix Red */
-  --primary-foreground: 0 0% 100%;
-
-  --secondary: 0 0% 20%;
-  /* #333333 - Dark Gray for UI elements */
-  --secondary-foreground: 0 0% 100%;
-
-  --muted: 0 0% 40%;
-  /* #666666 */
-  --muted-foreground: 0 0% 70%;
-  /* #B3B3B3 */
-
-  --border: 0 0% 20%;
-  --input: 0 0% 20%;
-  --ring: 357 92% 47%;
-
-  --radius: 0.5rem;
-  /* Sharper corners like Netflix */
-
-  /* Gradients & Effects */
-  --gradient-primary: linear-gradient(135deg, hsl(357 92% 47%), hsl(0 100% 35%));
-  --glass: rgba(20, 20, 20, 0.9);
-
-  /* Animations */
-  --transition-fast: 0.2s ease-in-out;
-  --transition-smooth: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-}
+/* Animations using Keyframes */
 
 * {
   box-sizing: border-box;
