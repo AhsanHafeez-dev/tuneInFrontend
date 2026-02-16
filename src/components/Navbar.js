@@ -20,7 +20,8 @@ const Navbar = () => {
         const timer = setTimeout(async () => {
             if (query.trim().length > 1) {
                 try {
-                    const res = await apiClient(`/api/v1/videos?query=${encodeURIComponent(query)}&limit=5`);
+                    // Method: GET /api/v1/videos/search?query=...&limit=5
+                    const res = await apiClient(`/api/v1/videos/search?query=${encodeURIComponent(query)}&limit=5`);
                     const data = await res.json();
                     if (res.ok) {
                         setSuggestions(data.data || []);
@@ -38,13 +39,14 @@ const Navbar = () => {
     const handleSearch = (e) => {
         e.preventDefault();
         setSuggestions([]); // close dropdown
-        router.push(query ? `/?query=${encodeURIComponent(query)}` : '/');
+        // Redirect to /search page
+        router.push(query ? `/search?query=${encodeURIComponent(query)}` : '/');
     };
 
     const handleSuggestionClick = (title) => {
         setQuery(title);
         setSuggestions([]);
-        router.push(`/?query=${encodeURIComponent(title)}`);
+        router.push(`/search?query=${encodeURIComponent(title)}`);
     }
 
     return (
