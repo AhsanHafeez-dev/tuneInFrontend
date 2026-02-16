@@ -146,11 +146,17 @@ export default function SettingsPage() {
                     <div>
                         <p className={styles.helperText} style={{ marginBottom: '0.5rem' }}>Channel Banner (Cover Image)</p>
                         <div style={{ position: 'relative' }}>
-                            <img
-                                src={coverFile ? URL.createObjectURL(coverFile) : (user.coverImage || '/default-cover.png')}
-                                alt="Cover"
-                                className={styles.coverPreview}
-                            />
+                            {coverFile || user.coverImage ? (
+                                <img
+                                    src={coverFile ? URL.createObjectURL(coverFile) : user.coverImage}
+                                    alt="Cover"
+                                    className={styles.coverPreview}
+                                />
+                            ) : (
+                                <div className={styles.coverPreview} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#2a2a2a', color: '#888', border: '1px dashed #444' }}>
+                                    No Cover Image
+                                </div>
+                            )}
                         </div>
                         <div className={styles.row} style={{ alignItems: 'center' }}>
                             <label className={styles.uploadBtn}>
@@ -172,11 +178,17 @@ export default function SettingsPage() {
 
                     {/* Avatar */}
                     <div className={styles.imageRow}>
-                        <img
-                            src={avatarFile ? URL.createObjectURL(avatarFile) : (user.avatar || '/default-avatar.png')}
-                            alt="Avatar"
-                            className={styles.preview}
-                        />
+                        {avatarFile || user.avatar ? (
+                            <img
+                                src={avatarFile ? URL.createObjectURL(avatarFile) : user.avatar}
+                                alt="Avatar"
+                                className={styles.preview}
+                            />
+                        ) : (
+                            <div className={styles.preview} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#2a2a2a', color: '#fff', fontSize: '2rem', fontWeight: 'bold' }}>
+                                {user.fullName?.[0]?.toUpperCase()}
+                            </div>
+                        )}
                         <div className={styles.fileInputWrapper}>
                             <p className={styles.helperText}>Profile Picture</p>
                             <div className={styles.row}>
