@@ -62,7 +62,9 @@ function HomeContent() {
             <Link href={`/watch/${video._id || video.id}`} className={styles.thumbnailWrapper}>
               <img src={video.thumbnail} alt={video.title} className={styles.thumbnail} />
               <span className={styles.duration}>{
-                Math.floor(video.duration / (60 * 60))>0?`${Math.floor(video.duration / (60 * 60))}:${Math.floor((video.duration % (60 * 60)) / 60)}:${Math.floor(video.duration % 60)}`:`${Math.floor((video.duration % (60 * 60)) / 60)}:${Math.floor(video.duration % 60)}`
+                Math.floor(video.duration / (60 * 60)) > 0 
+                ? `${Math.floor(video.duration / (60 * 60))}:${Math.floor((video.duration % (60 * 60)) / 60)}:${Math.floor(video.duration % 60)}`
+                  : `${Math.floor((video.duration % (60 * 60)) / 60)}:${Math.floor(video.duration % 60)}`
               }
               </span>
             </Link>
