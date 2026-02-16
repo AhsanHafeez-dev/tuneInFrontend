@@ -1,0 +1,200 @@
+.container {
+  padding: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.createTweetForm {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border);
+}
+
+.tweetInput {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.tweetInput:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.imageUpload {
+  margin-top: 1rem;
+}
+
+.imagePreviewGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.imagePreview {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.previewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.removeImgBtn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.formActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.tweetCard {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.tweetHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.tweetMeta {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.tweetDate {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.tweetContent {
+  color: var(--foreground);
+  white-space: pre-wrap;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.tweetImages {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tweetImage {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  max-height: 400px;
+}
+
+.tweetActions {
+  display: flex;
+  gap: 1rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.actionBtn {
+  background: none;
+  border: none;
+  color: gray;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.actionBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--foreground);
+}
+
+.menuBtn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: gray;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.editForm {
+  margin-top: 1rem;
+}
+
+.saveBtn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  background: transparent;
+  color: gray;
+  border: 1px solid gray;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 8px;
+}

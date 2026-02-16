@@ -14,7 +14,7 @@ function CommentItem({ comment, videoId, user, onRefresh }) {
 
     const [isReplying, setIsReplying] = useState(false);
     const [replyContent, setReplyContent] = useState('');
-    const [liked, setLiked] = useState(false);
+    const [liked, setLiked] = useState(comment.isLiked || false);
     // Ideally liked state comes from backend 'comment.isLiked'
 
     const [showReplies, setShowReplies] = useState(false);

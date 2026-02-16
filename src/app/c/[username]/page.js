@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import apiClient from '@/utils/apiClient';
+import TweetSection from '@/components/TweetSection';
 
 export default function ChannelPage() {
   const { username } = useParams();
@@ -302,9 +303,9 @@ export default function ChannelPage() {
             {playlists.length === 0 ? (
               <p>No playlists created yet.</p>
             ) : (
-                playlists.map((playlist) => {
-                  console.log("mapping through playlists on c/username",playlist);
-                  
+              playlists.map((playlist) => {
+                console.log("mapping through playlists on c/username", playlist);
+
                 const firstVideo = playlist.videos && playlist.videos.length > 0 ? playlist.videos[0]?.video : null;
                 const firstVidId = firstVideo ? (firstVideo.id || firstVideo._id) : null;
                 const playlistId = playlist.id || playlist._id;
@@ -372,79 +373,12 @@ export default function ChannelPage() {
         )}
 
         {activeTab === "tweets" && (
-          <div className={styles.tweetsContainer}>
-            {isOwner && (
-              <form
-                onSubmit={handleCreateTweet}
-                className={styles.createTweetForm}
-              >
-                <textarea
-                  placeholder="Post something to your community..."
-                  value={newTweetContent}
-                  onChange={(e) => setNewTweetContent(e.target.value)}
-                  className={styles.tweetInput}
-                  rows={3}
-                />
-                <div style={{ textAlign: "right", marginTop: "0.5rem" }}>
-                  <button type="submit" className="btn btn-primary">
-                    Post
-                  </button>
-                </div>
-              </form>
-            )}
-
-            <div className={styles.tweetsList}>
-              {tweets.map((tweet) => (
-                <div key={tweet.id} className={styles.tweetCard}>
-                  <div className={styles.tweetHeader}>
-                    <div
-                      className={styles.avatarPlaceholder}
-                      style={{ width: 30, height: 30, fontSize: "0.8rem" }}
-                    >
-                      {channel.avatar ? (
-                        <img
-                          src={channel.avatar}
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            borderRadius: "50%",
-                          }}
-                        />
-                      ) : (
-                        channel.fullName?.[0]
-                      )}
-                    </div>
-                    <div className={styles.tweetMeta}>
-                      <span className={styles.tweetUser}>
-                        {channel.fullName}
-                      </span>
-                      <span className={styles.tweetDate}>
-                        {new Date(tweet.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                    {isOwner && (
-                      <button
-                        onClick={() => handleDeleteTweet(tweet.id)}
-                        className={styles.deleteBtn}
-                      >
-                        🗑️
-                      </button>
-                    )}
-                  </div>
-                  <p className={styles.tweetContent}>{tweet.content}</p>
-                  <div className={styles.tweetActions}>
-                    <button className={styles.actionBtn}>👍 Like</button>
-                    <button className={styles.actionBtn}>👎</button>
-                  </div>
-                </div>
-              ))}
-              {tweets.length === 0 && (
-                <p style={{ color: "gray", textAlign: "center" }}>
-                  No tweets yet.
-                </p>
-              )}
-            </div>
-          </div>
+          <TweetSection
+            userId={channel?.id}
+            isOwner={isOwner}
+            avatar={channel?.avatar}
+            fullName={channel?.fullName}
+          />
         )}
       </div>
     </div>

@@ -8,7 +8,7 @@ import styles from './Navbar.module.css';
 import apiClient from '@/utils/apiClient';
 
 const Navbar = () => {
-    const { user, logout } = useAuth();
+    const { user, loading, logout } = useAuth();
     const { toggleSidebar } = useSidebar();
     const router = useRouter();
     const [query, setQuery] = useState('');
@@ -91,7 +91,7 @@ const Navbar = () => {
             </div>
 
             <div className={styles.right}>
-                {user ? (
+                {loading ? null : (user ? (
                     <>
                         {/* Links moved to sidebar */}
                         <button className={styles.avatar} onClick={logout} title="Click to logout">
@@ -107,7 +107,7 @@ const Navbar = () => {
                         <Link href="/login" className="btn btn-ghost">Log in</Link>
                         <Link href="/register" className="btn btn-primary">Sign Up</Link>
                     </>
-                )}
+                ))}
             </div>
         </nav>
     );
