@@ -61,7 +61,7 @@ function HomeContent() {
           <div key={video._id || video.id} className={styles.card}>
             <Link href={`/watch/${video._id || video.id}`} className={styles.thumbnailWrapper}>
               <img src={video.thumbnail} alt={video.title} className={styles.thumbnail} />
-              <span className={styles.duration}>{`${Math.floor(video.duration/(60*60))}:${Math.floor(video.duration/(60))}:${Math.floor(video.duration)}`}</span>
+              <span className={styles.duration}>{`${Math.floor(video.duration/(60*60))}:${Math.floor(video.duration/(60))}:${Math.floor(video.duration%(60*60))}`}</span>
             </Link>
             <div className={styles.info}>
               <Link href={`/c/${video.owner?.userName}`} className={styles.avatar}>
