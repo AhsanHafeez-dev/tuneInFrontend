@@ -27,7 +27,7 @@ export default function ProfileModal({ user, onClose, onLogout }) {
 
                 <div className={styles.userInfo}>
                     <h2 className={styles.fullName}>{user.fullName}</h2>
-                    <p className={styles.username}>@{user.username}</p>
+                    <p className={styles.username}>@{user.userName}</p>
                     <p className={styles.email}>{user.email}</p>
                 </div>
 
