@@ -1,4 +1,5 @@
 'use client';
+import { usePathname } from 'next/navigation';
 import { useAuth } from "@/context/AuthContext";
 import Sidebar from "@/components/Sidebar";
 import { useSidebar } from "@/context/SidebarContext";
@@ -6,12 +7,16 @@ import { useSidebar } from "@/context/SidebarContext";
 export default function ClientLayout({ children }) {
     const { user, loading } = useAuth();
     const { isCollapsed } = useSidebar();
+    const pathname = usePathname();
 
     // While loading auth state, maybe show essential layout or nothing specific?
     // We'll just default to no sidebar to avoid flickering.
 
-    if (!user) {
-        // Guest layout: Full width, no sidebar
+    // Hide sidebar on login/register even if logged in
+    const isAuthPage = pathname === '/login' || pathname === '/register';
+
+    if (!user || isAuthPage) {
+        // Guest layout or Auth page: Full width, no sidebar
         return (
             <main style={{ width: '100%' }}>
                 {children}

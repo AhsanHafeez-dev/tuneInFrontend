@@ -1,14 +1,20 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-  const { login } = useAuth();
+  const { login, user, loading } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.push("/");
+    }
+  }, [user, loading, router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

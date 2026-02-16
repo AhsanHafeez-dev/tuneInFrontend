@@ -1,10 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "../login/page.module.css"; // Reusing login styles
 import apiClient from '@/utils/apiClient';
+import { useAuth } from '@/context/AuthContext';
 
 export default function RegisterPage() {
+  const { user, loading: authLoading } = useAuth();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -13,13 +15,19 @@ export default function RegisterPage() {
   });
   const [avatar, setAvatar] = useState(null);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.push("/");
+    }
+  }, [user, authLoading, router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
+    setIsSubmitting(true);
 
     const data = new FormData();
     Object.keys(formData).forEach((key) => data.append(key, formData[key]));
@@ -41,7 +49,7 @@ export default function RegisterPage() {
     } catch (err) {
       setError("Something went wrong");
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -106,8 +114,8 @@ export default function RegisterPage() {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary" disabled={loading}>
-            {loading ? "Creating Account..." : "Sign Up"}
+          <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+            {isSubmitting ? "Creating Account..." : "Sign Up"}
           </button>
         </form>
       </div>
