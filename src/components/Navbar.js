@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { useSidebar } from '@/context/SidebarContext';
+import { useTheme } from '@/context/ThemeContext';
 import styles from './Navbar.module.css';
 import apiClient from '@/utils/apiClient';
 
@@ -12,6 +13,7 @@ import ProfileModal from './ProfileModal';
 const Navbar = () => {
     const { user, loading, logout } = useAuth();
     const { toggleSidebar } = useSidebar();
+    const { theme, toggleTheme } = useTheme();
     const router = useRouter();
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState([]);
@@ -98,6 +100,30 @@ const Navbar = () => {
                 </div>
 
                 <div className={styles.right}>
+                    <button
+                        onClick={toggleTheme}
+                        className={styles.themeToggle}
+                        aria-label="Toggle Theme"
+                        style={{
+                            background: 'transparent',
+                            border: 'none',
+                            color: 'var(--foreground)',
+                            cursor: 'pointer',
+                            padding: '0.5rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderRadius: '50%',
+                            marginRight: '1rem',
+                            transition: 'background 0.2s'
+                        }}
+                    >
+                        {theme === 'dark' ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
+                        ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
+                        )}
+                    </button>
                     {loading ? null : (user ? (
                         <>
                             {/* Links moved to sidebar. Avatar click opens modal */}

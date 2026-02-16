@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import { AuthProvider } from "@/context/AuthContext";
 import { SidebarProvider } from "@/context/SidebarContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import "./globals.css";
 
 export const metadata = {
@@ -16,12 +17,14 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <AuthProvider>
-          <SidebarProvider>
-            <Navbar />
-            <ClientLayout>
-              {children}
-            </ClientLayout>
-          </SidebarProvider>
+          <ThemeProvider>
+            <SidebarProvider>
+              <Navbar />
+              <ClientLayout>
+                {children}
+              </ClientLayout>
+            </SidebarProvider>
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>
