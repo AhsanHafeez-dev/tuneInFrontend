@@ -1,10 +1,10 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import apiClient from '@/utils/apiClient';
 import Link from 'next/link';
 
-export default function SearchPage() {
+function SearchResults() {
     const searchParams = useSearchParams();
     const query = searchParams.get('query');
     const [videos, setVideos] = useState([]);
@@ -113,5 +113,13 @@ export default function SearchPage() {
                 </div>
             )}
         </div>
+    );
+}
+
+export default function SearchPage() {
+    return (
+        <Suspense fallback={<div className="loading">Loading search...</div>}>
+            <SearchResults />
+        </Suspense>
     );
 }
