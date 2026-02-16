@@ -3,6 +3,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import styles from "./page.module.css";
+import Loader from "@/components/Loader";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });

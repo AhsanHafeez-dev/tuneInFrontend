@@ -50,7 +50,7 @@ function SearchResults() {
             </h1>
 
             {loading ? (
-                <div className="loading">Searching...</div>
+                <Loader size="lg" />
             ) : videos.length === 0 ? (
                 <div style={{ textAlign: 'center', marginTop: '2rem', color: 'gray' }}>
                     No videos found matching your query.
@@ -118,7 +118,7 @@ function SearchResults() {
 
 export default function SearchPage() {
     return (
-        <Suspense fallback={<div className="loading">Loading search...</div>}>
+        <Suspense fallback={<Loader size="lg" />}>
             <SearchResults />
         </Suspense>
     );
