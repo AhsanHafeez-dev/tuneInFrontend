@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from 'react';
 import apiClient from '@/utils/apiClient';
 import Link from 'next/link';
 import Loader from '@/components/Loader';
+import styles from './page.module.css';
 
 function SearchResults() {
     const searchParams = useSearchParams();
@@ -45,68 +46,55 @@ function SearchResults() {
     };
 
     return (
-        <div style={{ padding: '2rem' }}>
-            <h1 style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>
-                Search results for: "<span style={{ color: 'var(--primary)' }}>{query}</span>"
+        <div className={styles.container}>
+            <h1 className={styles.title}>
+                Search results for: <span className={styles.query}>"{query}"</span>
             </h1>
 
             {loading ? (
-                <Loader size="lg" />
+                <div className={styles.loading}>
+                    <Loader size="lg" />
+                </div>
             ) : videos.length === 0 ? (
-                <div style={{ textAlign: 'center', marginTop: '2rem', color: 'gray' }}>
+                <div className={styles.noResults}>
                     No videos found matching your query.
                 </div>
             ) : (
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                    gap: '2rem'
-                }}>
+                <div className={styles.grid}>
                     {videos.map(video => (
-                        <Link href={`/watch/${video._id || video.id}`} key={video._id || video.id} style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                                <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: '12px', overflow: 'hidden', background: '#000' }}>
-                                    <img
-                                        src={video.thumbnail}
-                                        alt={video.title}
-                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                    />
-                                    <span style={{
-                                        position: 'absolute',
-                                        bottom: '8px',
-                                        right: '8px',
-                                        background: 'rgba(0,0,0,0.8)',
-                                        padding: '2px 4px',
-                                        borderRadius: '4px',
-                                        fontSize: '0.8rem',
-                                        fontWeight: '500'
-                                    }}>
-                                        {formatDuration(video.duration)}
-                                    </span>
-                                </div>
-                                <div style={{ display: 'flex', gap: '12px' }}>
-                                    <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#333', overflow: 'hidden', flexShrink: 0 }}>
-                                        {video.owner?.avatar ? (
-                                            <img src={video.owner.avatar} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                        ) : (
-                                            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem' }}>
-                                                {video.owner?.username?.[0]?.toUpperCase()}
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                        <h3 style={{ fontSize: '1rem', fontWeight: '600', lineHeight: '1.4', marginBottom: '4px' }}>{video.title}</h3>
-                                        <div style={{ fontSize: '0.85rem', color: '#aaa' }}>
-                                            <span>{video.owner?.username}</span>
-                                            <span style={{ margin: '0 4px' }}>•</span>
-                                            <span>{video.views} views</span>
-                                            <span style={{ margin: '0 4px' }}>•</span>
-                                            <span>{new Date(video.createdAt).toLocaleDateString()}</span>
+                        <Link href={`/watch/${video._id || video.id}`} key={video._id || video.id} className={styles.card}>
+                            <div className={styles.thumbnailWrapper}>
+                                <img
+                                    src={video.thumbnail}
+                                    alt={video.title}
+                                    className={styles.thumbnail}
+                                />
+                                <span className={styles.duration}>
+                                    {formatDuration(video.duration)}
+                                </span>
+                            </div>
+                            <div className={styles.info}>
+                                <div className={styles.avatarWrapper}>
+                                    {video.owner?.avatar ? (
+                                        <img src={video.owner.avatar} alt="avatar" className={styles.avatar} />
+                                    ) : (
+                                        <div className={styles.avatarPlaceholder}>
+                                            {video.owner?.username?.[0]?.toUpperCase()}
                                         </div>
-                                        <p style={{ fontSize: '0.85rem', color: '#888', marginTop: '4px', lineHeight: '1.4', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                                            {video.description}
-                                        </p>
+                                    )}
+                                </div>
+                                <div className={styles.textContent}>
+                                    <h3 className={styles.videoTitle}>{video.title}</h3>
+                                    <div className={styles.metadata}>
+                                        <span>{video.owner?.username}</span>
+                                        <span>•</span>
+                                        <span>{video.views} views</span>
+                                        <span>•</span>
+                                        <span>{new Date(video.createdAt).toLocaleDateString()}</span>
                                     </div>
+                                    <p className={styles.description}>
+                                        {video.description}
+                                    </p>
                                 </div>
                             </div>
                         </Link>

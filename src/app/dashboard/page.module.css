@@ -1,6 +1,246 @@
 .container {
-    padding-bottom: 2rem;
+    padding-bottom: 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 1rem;
+    animation: fadeIn 0.4s ease-out;
 }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.statCard {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    padding: 1.75rem;
+    border-radius: var(--radius);
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.statCard:hover {
+    border-color: hsl(var(--border) / 0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.statCard h3 {
+    font-size: 0.9rem;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.statCard p {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: hsl(var(--foreground));
+    margin: 0;
+}
+
+.sectionTitle {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    border-bottom: 1px solid hsl(var(--border));
+    padding-bottom: 1rem;
+}
+
+.videoList {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* List view is better for management */
+    gap: 1.25rem;
+}
+
+.videoItem {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.25rem;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    transition: all 0.2s;
+}
+
+.videoItem:hover {
+    background: hsl(var(--accent) / 0.5);
+    border-color: hsl(var(--border) / 0.8);
+}
+
+.videoThumb {
+    width: 220px;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: calc(var(--radius) - 2px);
+    background: hsl(var(--secondary));
+}
+
+.videoInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.videoInfo h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    color: hsl(var(--foreground));
+}
+
+.metaRow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: hsl(var(--muted-foreground));
+}
+
+.videoActions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.published {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+.private {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(248, 113, 113, 0.2);
+}
+
+/* Modal */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    /* Darker */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.2s ease-out;
+}
+
+.modal {
+    background: hsl(var(--card));
+    padding: 2.5rem;
+    border-radius: var(--radius);
+    width: 90%;
+    max-width: 550px;
+    border: 1px solid hsl(var(--border) / 1.5);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.uploadForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.uploadForm input[type="text"],
+.uploadForm textarea {
+    background: hsl(var(--input));
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius);
+    color: white;
+    outline: none;
+    font-family: inherit;
+    resize: none;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.uploadForm input[type="text"]:focus,
+.uploadForm textarea:focus {
+    border-color: hsl(var(--ring));
+    background: hsl(var(--background));
+}
+
+.uploadForm textarea {
+    min-height: 120px;
+}
+
+.fileInput {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: hsl(var(--muted-foreground));
+    font-weight: 500;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .videoItem {
+        flex-direction: column;
+    }
+
+    .videoThumb {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
 
 .header {
     display: flex;

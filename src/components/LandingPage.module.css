@@ -1,5 +1,5 @@
 .landingContainer {
-    background-color: #000;
+    background-color: transparent;
     color: #fff;
     min-height: 100vh;
     overflow-x: hidden;
@@ -9,6 +9,306 @@
     width: 100%;
     z-index: 10;
 }
+
+.hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 2rem;
+}
+
+.heroBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.6;
+    mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+}
+
+.heroOverlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.2) 0%, rgba(9, 9, 11, 0.95) 90%);
+    z-index: 0;
+}
+
+.heroContent {
+    z-index: 1;
+    max-width: 900px;
+    animation: scaleUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.heroTitle {
+    font-size: clamp(3rem, 10vw, 5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(to right, #fff, #ccc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.heroSubtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 2.5rem;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    color: hsl(var(--foreground));
+    opacity: 0.9;
+}
+
+.ctaButton {
+    background: hsl(var(--primary));
+    color: white;
+    font-size: 1.25rem;
+    padding: 1rem 3rem;
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
+}
+
+.ctaButton:hover {
+    background: hsl(346 87% 38%);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(229, 9, 20, 0.6);
+}
+
+/* Story Cards Section */
+.storySection {
+    background-color: transparent;
+    width: 100%;
+}
+
+.storyCard {
+    position: relative;
+    height: 90vh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    /* Thinner separator */
+}
+
+.storyBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    transition: transform 10s ease-out;
+    /* Slow zoom effect */
+}
+
+.storyCard:hover .storyBackground {
+    transform: scale(1.05);
+}
+
+.storyOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(9, 9, 11, 0.98) 0%, rgba(9, 9, 11, 0.8) 40%, rgba(9, 9, 11, 0.3) 100%);
+    z-index: 1;
+}
+
+.reverse .storyOverlay {
+    background: linear-gradient(-90deg, rgba(9, 9, 11, 0.98) 0%, rgba(9, 9, 11, 0.8) 40%, rgba(9, 9, 11, 0.3) 100%);
+}
+
+.storyContainer {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.reverse .storyContainer {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.storyText {
+    max-width: 50%;
+}
+
+.storyTitle {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    color: hsl(var(--foreground));
+}
+
+.storySubtitle {
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: hsl(var(--muted-foreground));
+    line-height: 1.5;
+}
+
+/* FAQ Section */
+.faqSection {
+    padding: 6rem 2rem;
+    background: transparent;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.faqTitle {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+}
+
+.faqList {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.faqItem {
+    background: hsl(var(--secondary) / 0.5);
+    border: 1px solid transparent;
+    margin-bottom: 0;
+    transition: all 0.2s;
+    overflow: hidden;
+}
+
+.faqItem:hover {
+    background: hsl(var(--secondary));
+    border-color: hsl(var(--border));
+}
+
+.faqQuestion {
+    padding: 1.5rem 2rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    width: 100%;
+    color: hsl(var(--foreground));
+    cursor: pointer;
+    text-align: left;
+}
+
+.faqAnswer {
+    padding: 2rem;
+    font-size: 1.25rem;
+    background: hsl(var(--background) / 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    line-height: 1.6;
+    display: none;
+    text-align: left;
+    color: hsl(var(--muted-foreground));
+}
+
+.open {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Footer CTA */
+.footerCta {
+    padding: 5rem 2rem;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footerCtaText {
+    font-size: 1.25rem;
+    color: hsl(var(--muted-foreground));
+    padding-bottom: 2rem;
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 950px) {
+    .storyCard {
+        height: auto;
+        padding: 5rem 0;
+    }
+
+    .storyOverlay,
+    .reverse .storyOverlay {
+        background: linear-gradient(180deg, rgba(9, 9, 11, 0.2) 0%, rgba(9, 9, 11, 0.95) 60%);
+    }
+
+    .storyContainer,
+    .reverse .storyContainer {
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .reverse .storyContainer {
+        align-items: center;
+    }
+
+    .storyText {
+        max-width: 100%;
+        margin-top: 40vh;
+        /* Push text down to make room for image */
+    }
+
+    .storyTitle {
+        font-size: 2.5rem;
+    }
+
+    .heroTitle {
+        font-size: 3rem;
+    }
+}
+
 
 .hero {
     height: 100vh;

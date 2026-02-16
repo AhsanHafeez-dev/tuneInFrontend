@@ -2,26 +2,188 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 24px; /* Reduced from 4% to move icon closer to edge */
-    /* Cinematic padding */
-    height: 68px;
+    padding: 0 2rem;
+    height: 70px;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
     left: 0;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
-    /* Fade out */
-    border-bottom: none;
-    /* Seamless blend */
-    transition: background-color 0.3s;
+    background: rgba(9, 9, 11, 0.8);
+    /* Glass dark background */
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
 }
 
 .left,
 .right {
     display: flex;
     align-items: center;
-    gap: 24px; /* Explicit gap between icon and logo */
+    gap: 1.5rem;
+    flex: 1;
+}
+
+.right {
+    justify-content: flex-end;
+}
+
+.center {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+}
+
+.logo {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: hsl(var(--foreground));
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: opacity 0.2s;
+}
+
+.logo span {
+    color: hsl(var(--primary));
+}
+
+.logo:hover {
+    opacity: 0.9;
+}
+
+.searchContainer {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+}
+
+.searchBar {
+    display: flex;
+    align-items: center;
+    background: hsl(var(--secondary) / 0.5);
+    border: 1px solid transparent;
+    border-radius: 9999px;
+    /* Capsule */
+    padding: 0.25rem 0.5rem 0.25rem 1.25rem;
+    transition: all 0.2s ease;
+}
+
+.searchBar:focus-within {
+    background: hsl(var(--secondary));
+    border-color: hsl(var(--border));
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+}
+
+.searchBar input {
+    background: transparent;
+    border: none;
+    color: hsl(var(--foreground));
+    padding: 0.5rem 0;
+    flex: 1;
+    font-size: 0.95rem;
+    box-shadow: none;
+    /* Override global input focus */
+}
+
+.searchBar input:focus {
+    box-shadow: none;
+    background: transparent;
+}
+
+.searchBtn {
+    background: hsl(var(--secondary));
+    border: none;
+    color: hsl(var(--muted-foreground));
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-left: 0.5rem;
+}
+
+.searchBtn:hover {
+    background: hsl(var(--primary));
+    color: white;
+}
+
+.searchResultsDropdown {
+    /* Renamed from suggestionsDropdown for clarity if needed, keeping mostly same */
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+}
+
+.suggestionItem {
+    padding: 0.75rem 1rem;
+    color: hsl(var(--muted-foreground));
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.suggestionItem:hover {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.avatar:hover {
+    border-color: hsl(var(--primary));
+}
+
+.avatarImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatarPlaceholder {
+    width: 100%;
+    height: 100%;
+    background: hsl(var(--secondary));
+    color: hsl(var(--foreground));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+
+.left,
+.right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    /* Explicit gap between icon and logo */
     flex: 1;
 }
 
