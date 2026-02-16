@@ -96,7 +96,7 @@ export default function Sidebar() {
                 alt={sub.channel?.userName}
                 className={styles.channelAvatar}
               />
-              {!isCollapsed && <span>{sub.channel?.fullName || sub.channel?.userName}</span>}
+              {!isCollapsed && <span>{sub.channel?.userName || sub.channel?.fullName}</span>}
             </Link>
           ))}
           {subscriptions.length === 0 && (
