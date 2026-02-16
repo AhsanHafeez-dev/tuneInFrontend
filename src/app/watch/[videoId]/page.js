@@ -368,7 +368,7 @@ export default function WatchPage() {
                         >
                             <div className={styles.queueThumbWrapper}>
                                 <img src={v.thumbnail} alt={v.title} className={styles.queueThumb} />
-                                <span className={styles.suggestedDuration}>{Math.floor(v.duration)}s</span>
+                                <span className={styles.suggestedDuration}>{`${Math.floor(v.duration/(60*60))}:${Math.floor(v.duration/(60))}:${Math.floor(v.duration)}`}s</span>
                             </div>
                             <div className={styles.queueInfo}>
                                 <h4 className={styles.queueTitle} title={v.title}>{v.title}</h4>
