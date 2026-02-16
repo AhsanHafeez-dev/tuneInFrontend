@@ -228,10 +228,10 @@ export default function TweetSection({ userId, isOwner, avatar, fullName }) {
                                        Usually Cloudinary returns URLs. Let's assume 'images' field exists or 'media' ?? 
                                        I'll guess 'images' based on common patterns or check the response later. 
                                        For now I'll check 'tweet.images' */}
-                                    {tweet.images && tweet.images.length > 0 && (
+                                    {tweet.multimedia && tweet.multimedia.length > 0 && (
                                         <div className={styles.tweetImages}>
-                                            {tweet.images.map((img, i) => (
-                                                <img key={i} src={img} alt="tweet media" className={styles.tweetImage} />
+                                            {tweet.multimedia.map((media, i) => (
+                                                <img key={i} src={media.url} alt="tweet media" className={styles.tweetImage} />
                                             ))}
                                         </div>
                                     )}
