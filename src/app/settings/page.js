@@ -80,26 +80,55 @@ export default function SettingsPage() {
         }
     };
 
+    // Helper for direct upload
+    const uploadToCloudinary = async (file, resourceType = 'image') => {
+        const sigRes = await apiClient('/api/v1/videos/signature');
+        if (!sigRes.ok) throw new Error('Failed to get upload signature');
+        const { signature, timestamp, api_key, cloud_name } = (await sigRes.json()).data;
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('api_key', api_key);
+        formData.append('timestamp', timestamp);
+        formData.append('signature', signature);
+        formData.append('resource_type', resourceType);
+
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/${resourceType}/upload`, {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) throw new Error('Cloudinary upload failed');
+        return await response.json();
+    };
+
     const handleUpdateAvatar = async () => {
         if (!avatarFile) return;
         setAvatarLoading(true);
-        const formData = new FormData();
-        formData.append('avatar', avatarFile);
 
         try {
+            // Direct Upload
+            const uploaded = await uploadToCloudinary(avatarFile, 'image');
+
             const res = await apiClient('/api/v1/users/avatar', {
                 method: 'PATCH',
-                body: formData
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    avatarUrl: uploaded.secure_url,
+                    avatarPublicId: uploaded.public_id
+                })
             });
+
             if (res.ok) {
                 alert('Avatar updated successfully');
                 setAvatarFile(null);
                 await checkAuth();
             } else {
-                alert('Failed to update avatar');
+                alert('Failed to update avatar backend');
             }
         } catch (error) {
             console.error(error);
+            alert('Error updating avatar: ' + error.message);
         } finally {
             setAvatarLoading(false);
         }
@@ -108,23 +137,30 @@ export default function SettingsPage() {
     const handleUpdateCover = async () => {
         if (!coverFile) return;
         setCoverLoading(true);
-        const formData = new FormData();
-        formData.append('coverImage', coverFile);
 
         try {
+            // Direct Upload
+            const uploaded = await uploadToCloudinary(coverFile, 'image');
+
             const res = await apiClient('/api/v1/users/cover-image', {
                 method: 'PATCH',
-                body: formData
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    coverImageUrl: uploaded.secure_url,
+                    coverImagePublicId: uploaded.public_id
+                })
             });
+
             if (res.ok) {
                 alert('Cover image updated successfully');
                 setCoverFile(null);
                 await checkAuth();
             } else {
-                alert('Failed to update cover image');
+                alert('Failed to update cover image backend');
             }
         } catch (error) {
             console.error(error);
+            alert('Error updating cover: ' + error.message);
         } finally {
             setCoverLoading(false);
         }

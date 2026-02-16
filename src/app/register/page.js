@@ -29,16 +29,45 @@ export default function RegisterPage() {
     setError("");
     setIsSubmitting(true);
 
-    const data = new FormData();
-    Object.keys(formData).forEach((key) => data.append(key, formData[key]));
-    if (avatar) data.append("avatar", avatar);
-
     try {
-      console.log(data);
+      // 1. Get Signature
+      const sigRes = await apiClient('/api/v1/users/signature'); // Public endpoint
+      if (!sigRes.ok) throw new Error('Failed to get upload signature');
+      const { signature, timestamp, api_key, cloud_name } = (await sigRes.json()).data;
+
+      const uploadToCloudinary = async (file) => {
+        if (!file) return null;
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('api_key', api_key);
+        formData.append('timestamp', timestamp);
+        formData.append('signature', signature);
+        formData.append('resource_type', 'image');
+
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) throw new Error('Cloudinary upload failed');
+        return await response.json();
+      };
+
+      // 2. Upload Avatar (and Cover if we added it to CLI, but only avatar is here now)
+      const uploadedAvatar = await uploadToCloudinary(avatar);
+      if (!uploadedAvatar) throw new Error("Avatar upload failed");
+
+      // 3. Register
+      const registerData = {
+        ...formData,
+        avatarUrl: uploadedAvatar.secure_url,
+        avatarPublicId: uploadedAvatar.public_id
+      };
 
       const res = await apiClient("/api/v1/users/register", {
         method: "POST",
-        body: data,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(registerData),
       });
       const result = await res.json();
       if (res.ok) {
@@ -47,7 +76,8 @@ export default function RegisterPage() {
         setError(result.message || "Registration failed");
       }
     } catch (err) {
-      setError("Something went wrong");
+      console.error(err);
+      setError("Something went wrong: " + err.message);
     } finally {
       setIsSubmitting(false);
     }
