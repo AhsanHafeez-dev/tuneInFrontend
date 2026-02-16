@@ -46,6 +46,9 @@ export default function ProfileModal({ user, onClose, onLogout }) {
                 </div> */}
 
                 <div className={styles.actions}>
+                    <Link href="/settings" className={styles.settingsBtn} onClick={onClose}>
+                        ⚙️ Settings
+                    </Link>
                     <Link href={`/c/${user.username}`} className={styles.viewChannelBtn} onClick={onClose}>
                         View Channel
                     </Link>
