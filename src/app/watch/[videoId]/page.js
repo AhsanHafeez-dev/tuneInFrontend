@@ -211,10 +211,14 @@ export default function WatchPage() {
                 setIsLiked(data.data?.isLiked);
                 setIsSubscribed(data.data?.isSubscribed);
 
-                if (data.data?.watchedTill && videoRef.current) {
-                    const startTime = data.data.watchedTill;
-                    // Small delay or check readyState might be safer, but direct set often works if element exists
-                    if (videoRef.current) {
+                if (video.watchedTill && videoRef.current) {
+                    const duration = video.duration;
+                    const startTime = video.watchedTill;
+
+                    // If watchedTill is significantly close to end (e.g., > 95% or < 5s remaining), start from 0
+                    const isFinished = (duration - startTime) < 5 || (startTime / duration) > 0.95;
+
+                    if (videoRef.current && !isFinished) {
                         videoRef.current.currentTime = startTime;
                     }
                 }
@@ -353,7 +357,9 @@ export default function WatchPage() {
         const currentTime = e.target.currentTime;
         const currentBucket = Math.floor(currentTime / 5);
 
-        if (currentBucket > lastSentBucket && currentBucket > 0) {
+        // Update history if bucket changes (allows forward and backward updates)
+        // Check currentBucket > 0 to avoid spamming 0 updates immediately on load if not needed
+        if (currentBucket !== lastSentBucket && currentBucket > 0) {
             updateHistory(currentBucket * 5);
             setLastSentBucket(currentBucket);
         }
@@ -410,7 +416,13 @@ export default function WatchPage() {
                         onTimeUpdate={handleTimeUpdate}
                         onLoadedMetadata={() => {
                             if (video.watchedTill && videoRef.current) {
-                                videoRef.current.currentTime = video.watchedTill;
+                                const duration = videoRef.current.duration || video.duration;
+                                const startTime = video.watchedTill;
+                                const isFinished = (duration - startTime) < 5 || (startTime / duration) > 0.95;
+
+                                if (!isFinished) {
+                                    videoRef.current.currentTime = startTime;
+                                }
                             }
                         }}
                     />
