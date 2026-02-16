@@ -12,7 +12,8 @@
 }
 
 .modal {
-    background: var(--card);
+    background: #181818;
+    /* Solid dark background */
     border: 1px solid var(--border);
     border-radius: 12px;
     width: 100%;
