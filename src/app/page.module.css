@@ -120,13 +120,11 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  /* Slightly smaller min for YouTube density */
-  gap: 1rem;
-  /* Tighter gap */
-  padding: 24px;
-  /* Standard YouTube padding */
-  /* Cinematic Background Glow handled in globals.css for unity */
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  /* Smaller min-width for more items */
+  gap: 1.5rem;
+  /* Balanced gap */
+  padding: 2rem;
   min-height: 100vh;
 }
 
