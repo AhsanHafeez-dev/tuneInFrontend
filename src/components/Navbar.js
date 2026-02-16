@@ -107,7 +107,7 @@ const Navbar = () => {
                         style={{
                             background: 'transparent',
                             border: 'none',
-                            color: 'var(--foreground)',
+                            color: 'hsl(var(--foreground))',
                             cursor: 'pointer',
                             padding: '0.5rem',
                             display: 'flex',
