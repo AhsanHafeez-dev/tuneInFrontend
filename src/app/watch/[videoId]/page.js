@@ -211,14 +211,10 @@ export default function WatchPage() {
                 setIsLiked(data.data?.isLiked);
                 setIsSubscribed(data.data?.isSubscribed);
 
-                if (video.watchedTill && videoRef.current) {
-                    const duration = video.duration;
-                    const startTime = video.watchedTill;
-
-                    // If watchedTill is significantly close to end (e.g., > 95% or < 5s remaining), start from 0
-                    const isFinished = (duration - startTime) < 5 || (startTime / duration) > 0.95;
-
-                    if (videoRef.current && !isFinished) {
+                if (data.data?.watchedTill && videoRef.current) {
+                    const startTime = data.data.watchedTill;
+                    // Small delay or check readyState might be safer, but direct set often works if element exists
+                    if (videoRef.current) {
                         videoRef.current.currentTime = startTime;
                     }
                 }
@@ -416,13 +412,7 @@ export default function WatchPage() {
                         onTimeUpdate={handleTimeUpdate}
                         onLoadedMetadata={() => {
                             if (video.watchedTill && videoRef.current) {
-                                const duration = videoRef.current.duration || video.duration;
-                                const startTime = video.watchedTill;
-                                const isFinished = (duration - startTime) < 5 || (startTime / duration) > 0.95;
-
-                                if (!isFinished) {
-                                    videoRef.current.currentTime = startTime;
-                                }
+                                videoRef.current.currentTime = video.watchedTill;
                             }
                         }}
                     />
