@@ -128,7 +128,8 @@
 }
 
 .modal {
-    background: hsl(var(--card));
+    background: #181818;
+    /* Solid dark background */
     padding: 2rem;
     border-radius: var(--radius);
     width: 90%;
