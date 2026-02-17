@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { useSidebar } from '@/context/SidebarContext';
@@ -18,8 +18,22 @@ const Navbar = () => {
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [showProfileModal, setShowProfileModal] = useState(false);
+    const searchRef = useRef(null);
 
     // console.log("Navbar: user state:", user);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (searchRef.current && !searchRef.current.contains(event.target)) {
+                setSuggestions([]);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     useEffect(() => {
         const timer = setTimeout(async () => {
@@ -70,7 +84,7 @@ const Navbar = () => {
                 <div className={styles.center}>
                     {/* Only show search bar if logged in? Or always? Assuming always but user said "when user is searching..." implies user action. Keeping consistent with previous logic: if user exists? Actually previous logic had {user && ( ... )} around search container. I'll keep it as is based on previous file content. */}
                     {user && (
-                        <div className={styles.searchContainer}>
+                        <div className={styles.searchContainer} ref={searchRef}>
                             <form onSubmit={handleSearch} className={styles.searchBar}>
                                 <input
                                     type="text"
