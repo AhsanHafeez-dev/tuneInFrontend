@@ -6,20 +6,22 @@ import { useAuth } from '@/context/AuthContext';
 import styles from './page.module.css';
 import PlaylistModal from '@/components/PlaylistModal';
 import apiClient from '@/utils/apiClient';
+import ReactMarkdown from 'react-markdown';
+
 
 const formatTime = (durationInSeconds) => {
-  if (!durationInSeconds) return "0:00";
+    if (!durationInSeconds) return "0:00";
 
-  const h = Math.floor(durationInSeconds / 3600);
-  const m = Math.floor((durationInSeconds % 3600) / 60);
-  const s = Math.floor(durationInSeconds % 60);
+    const h = Math.floor(durationInSeconds / 3600);
+    const m = Math.floor((durationInSeconds % 3600) / 60);
+    const s = Math.floor(durationInSeconds % 60);
 
-  // Pad minutes with '0' only if we are showing hours
-  const mString = h > 0 ? m.toString().padStart(2, "0") : m.toString();
-  // Always pad seconds
-  const sString = s.toString().padStart(2, "0");
+    // Pad minutes with '0' only if we are showing hours
+    const mString = h > 0 ? m.toString().padStart(2, "0") : m.toString();
+    // Always pad seconds
+    const sString = s.toString().padStart(2, "0");
 
-  return h > 0 ? `${h}:${mString}:${sString}` : `${mString}:${sString}`;
+    return h > 0 ? `${h}:${mString}:${sString}` : `${mString}:${sString}`;
 };
 
 // --- Comment Components moved to @/components/comments/CommentSection ---
@@ -318,7 +320,7 @@ export default function WatchPage() {
                         </div>
                     </div>
                     <div className={styles.description}>
-                        <p>{video.description}</p>
+                        <ReactMarkdown>{video.description}</ReactMarkdown>
                     </div>
                 </div>
 
